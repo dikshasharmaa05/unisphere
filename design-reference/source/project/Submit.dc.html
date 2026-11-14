@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Unisphere — Submit your article</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F2}
+a{color:#0E6E62;text-decoration:none}a:hover{color:#14201E}
+input,textarea,select{box-sizing:border-box}
+</style>
+</helmet>
+<div style="font-family: Manrope, system-ui, sans-serif; color: #141A19; background: #F3F5F2; min-height: 100vh">
+
+  <header style="max-width: 1360px; margin: 0 auto; padding: 22px 32px; box-sizing: border-box; display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 12px; color: #141A19">
+      <span style="width: 44px; height: 44px; border-radius: 50%; background: #E9F5B8; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#141A19" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><ellipse cx="12" cy="12" rx="11" ry="4" transform="rotate(-25 12 12)"/></svg></span>
+      <span style="font-weight: 800; font-size: 19px; letter-spacing: -0.02em">Unisphere</span>
+    </a>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #56605D; margin-left: 8px">/ New submission</span>
+    <div style="margin-left: auto; display: flex; align-items: center; gap: 10px">
+      <span style="font-size: 13px; color: #56605D">Draft saved · [time]</span>
+      <span style="width: 44px; height: 44px; border-radius: 50%; background: #CDEDE4; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px" aria-label="Signed in as RI">RI</span>
+    </div>
+  </header>
+
+  <main style="max-width: 1360px; margin: 0 auto; padding: 16px 32px 80px; box-sizing: border-box">
+    <h1 style="margin: 0; font-size: clamp(34px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.045em; font-weight: 800">Submit your article</h1>
+    <p style="margin: 14px 0 0; font-size: 16px; color: #56605D; max-width: 640px; line-height: 1.6">Four short steps. Your submission goes to the editorial team for review before anything is published.</p>
+
+    <div style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+      <!-- Stepper -->
+      <nav aria-label="Submission steps" style="flex: 1 1 260px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+        <sc-for list="{{steps}}" as="s" hint-placeholder-count="4">
+          <button type="button" onClick="{{s.go}}" aria-current="{{s.current}}" style="text-align: left; border: 0; background: {{s.bg}}; border-radius: 20px; padding: 14px; display: flex; gap: 14px; align-items: center; font: inherit; color: #141A19; cursor: pointer">
+            <span style="flex: none; width: 40px; height: 40px; border-radius: 50%; background: {{s.dotBg}}; color: {{s.dotFg}}; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px">{{s.mark}}</span>
+            <span><span style="display: block; font-size: 15px; font-weight: 700">{{s.title}}</span><span style="display: block; font-size: 12px; color: #56605D; margin-top: 2px">{{s.sub}}</span></span>
+          </button>
+        </sc-for>
+        <div style="margin-top: 12px; background: #F3F5F2; border-radius: 20px; padding: 16px; font-size: 13px; line-height: 1.55; color: #3B4442">
+          <strong style="color: #141A19">Before you start</strong><br>Read the <a href="Main.dc.html#guidelines" style="text-decoration: underline">author guidelines</a> and use the manuscript template.
+        </div>
+      </nav>
+
+      <!-- Form -->
+      <section style="flex: 999 1 640px; min-width: 0; background: #FFFFFF; border-radius: 32px; padding: clamp(24px, 3.4vw, 44px)">
+        <sc-if value="{{is1}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0E6E62">Step 1 of 4</div>
+            <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em">Article details</h2>
+            <div><label for="t" style="font-size: 13px; font-weight: 700">Title</label><input id="t" type="text" value="Sleep-dependent memory consolidation in adolescent learners" style="margin-top: 8px; width: 100%; height: 54px; border-radius: 16px; border: 1px solid #DCE1DC; background: #F8FAF8; padding: 0 16px; font: inherit; font-size: 15px; color: #141A19"></div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+              <div><label for="d" style="font-size: 13px; font-weight: 700">Discipline</label><select id="d" style="margin-top: 8px; width: 100%; height: 54px; border-radius: 16px; border: 1px solid #DCE1DC; background: #F8FAF8; padding: 0 14px; font: inherit; font-size: 15px; color: #141A19"><option>Neuroscience</option><option>Life Sciences</option><option>AI &amp; Computing</option></select></div>
+              <div><label for="ty" style="font-size: 13px; font-weight: 700">Article type</label><select id="ty" style="margin-top: 8px; width: 100%; height: 54px; border-radius: 16px; border: 1px solid #DCE1DC; background: #F8FAF8; padding: 0 14px; font: inherit; font-size: 15px; color: #141A19"><option>Original research</option><option>Review article</option><option>Case study</option></select></div>
+            </div>
+            <div><label for="ab" style="font-size: 13px; font-weight: 700">Abstract <span style="font-weight: 500; color: #56605D">· public, shown to everyone</span></label><textarea id="ab" rows="6" style="margin-top: 8px; width: 100%; border-radius: 16px; border: 1px solid #DCE1DC; background: #F8FAF8; padding: 14px 16px; font: inherit; font-size: 15px; line-height: 1.6; color: #141A19; resize: vertical">Sleep plays a central role in consolidating new memories, yet its effect on classroom learning in adolescents remains under-studied…</textarea><div style="margin-top: 6px; font-size: 12px; color: #56605D; text-align: right">[n] / 300 words</div></div>
+            <div><label for="kw" style="font-size: 13px; font-weight: 700">Keywords</label>
+              <div style="margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-radius: 16px; border: 1px solid #DCE1DC; background: #F8FAF8; padding: 10px">
+                <span style="background: #CDEDE4; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600">sleep ×</span><span style="background: #CDEDE4; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600">memory ×</span><span style="background: #CDEDE4; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600">adolescence ×</span>
+                <input id="kw" type="text" placeholder="Add keyword" style="flex: 1; min-width: 120px; border: 0; background: transparent; font: inherit; font-size: 14px; height: 32px">
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{is2}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0E6E62">Step 2 of 4</div>
+            <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em">Authors</h2>
+            <sc-for list="{{authors}}" as="a" hint-placeholder-count="2">
+              <div style="display: flex; gap: 14px; align-items: center; background: #F3F5F2; border-radius: 20px; padding: 16px; flex-wrap: wrap">
+                <span style="width: 44px; height: 44px; border-radius: 50%; background: {{a.bg}}; display: flex; align-items: center; justify-content: center; font-weight: 700">{{a.init}}</span>
+                <span style="flex: 1 1 200px"><span style="display: block; font-weight: 700">{{a.name}}</span><span style="display: block; font-size: 13px; color: #56605D">{{a.aff}} · ORCID [0000-0000-0000-0000]</span></span>
+                <span style="font-size: 12px; font-weight: 700; background: #FFFFFF; border-radius: 999px; padding: 6px 12px">{{a.role}}</span>
+              </div>
+            </sc-for>
+            <button type="button" style="height: 54px; border-radius: 999px; border: 1.5px dashed #9FB0AA; background: transparent; font: inherit; font-size: 15px; font-weight: 700; color: #141A19; cursor: pointer">+ Add co-author</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{is3}}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0E6E62">Step 3 of 4</div>
+            <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em">Manuscript &amp; media</h2>
+            <label for="ms" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 200px; border-radius: 26px; border: 2px dashed #9FD8CC; background: #F2FAF7; text-align: center; padding: 24px; box-sizing: border-box; cursor: pointer">
+              <span style="width: 56px; height: 56px; border-radius: 50%; background: #E9F5B8; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141A19" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></span>
+              <span style="font-size: 17px; font-weight: 700">Drop your manuscript here, or browse</span>
+              <span style="font-size: 13px; color: #56605D">DOCX or PDF · up to [20] MB</span>
+              <input id="ms" type="file" style="position: absolute; width: 1px; height: 1px; opacity: 0">
+            </label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+              <div style="background: #F3F5F2; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E6E62" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg>
+                <strong style="font-size: 15px">Images</strong><span style="font-size: 13px; color: #56605D">3 uploaded · PNG, JPG</span>
+              </div>
+              <div style="background: #F3F5F2; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E6E62" stroke-width="1.8" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+                <strong style="font-size: 15px">Graphs &amp; figures</strong><span style="font-size: 13px; color: #56605D">2 uploaded · SVG, PNG, CSV</span>
+              </div>
+              <div style="background: #F3F5F2; border-radius: 22px; padding: 18px; display: flex; flex-direction: column; gap: 8px">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E6E62" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></svg>
+                <strong style="font-size: 15px">Video</strong><span style="font-size: 13px; color: #56605D">Upload or paste a YouTube / Vimeo link</span>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <div style="display: flex; align-items: center; gap: 14px; border: 1px solid #E3E7E3; border-radius: 18px; padding: 14px 16px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #CDEDE4; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px">DOCX</span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 700; font-size: 14px">manuscript_v3.docx</span><span style="display: block; font-size: 12px; color: #56605D">[size] · uploaded</span></span><span style="font-size: 12px; font-weight: 700; color: #0E6E62">Ready</span></div>
+              <div style="display: flex; align-items: center; gap: 14px; border: 1px solid #E3E7E3; border-radius: 18px; padding: 14px 16px"><span style="width: 40px; height: 40px; border-radius: 12px; background: #E9F5B8; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px">MP4</span><span style="flex: 1; min-width: 0"><span style="display: block; font-weight: 700; font-size: 14px">method_walkthrough.mp4</span><span style="display: block; height: 6px; border-radius: 6px; background: #E3E7E3; margin-top: 8px"><span style="display: block; width: 64%; height: 6px; border-radius: 6px; background: #2E9C88"></span></span></span><span style="font-size: 12px; font-weight: 700; color: #56605D">64%</span></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{is4}}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0E6E62">Step 4 of 4</div>
+            <h2 style="margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em">Review &amp; submit</h2>
+            <div style="background: #F3F5F2; border-radius: 22px; padding: 20px; display: grid; grid-template-columns: auto 1fr; gap: 10px 18px; font-size: 14px">
+              <span style="color: #56605D">Title</span><strong>Sleep-dependent memory consolidation in adolescent learners</strong>
+              <span style="color: #56605D">Authors</span><span>R. Iyer, M. Okafor, L. Brandt</span>
+              <span style="color: #56605D">Files</span><span>Manuscript, 3 images, 2 graphs, 1 video</span>
+            </div>
+            <label style="display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.55"><input type="checkbox" checked style="width: 20px; height: 20px; margin-top: 2px; accent-color: #0E6E62">This work is original, not under review elsewhere, and all authors agree to submission.</label>
+            <label style="display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.55"><input type="checkbox" style="width: 20px; height: 20px; margin-top: 2px; accent-color: #0E6E62">I understand that after submission, changes are made by request to the editorial team.</label>
+          </div>
+        </sc-if>
+
+        <div style="margin-top: 32px; padding-top: 22px; border-top: 1px solid #ECEFEC; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap">
+          <button type="button" onClick="{{back}}" style="height: 54px; padding: 0 24px; border-radius: 999px; border: 0; background: #F3F5F2; color: #141A19; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer">Back</button>
+          <button type="button" onClick="{{next}}" style="height: 54px; padding: 0 7px 0 24px; border-radius: 999px; border: 0; background: #141A19; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 16px; cursor: pointer">{{nextLabel}}<span style="width: 40px; height: 40px; border-radius: 50%; background: #E9F5B8; color: #141A19; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
+        </div>
+      </section>
+
+      <!-- Status / help -->
+      <aside style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="background: #141A19; color: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+          <div style="font-size: 15px; font-weight: 800">What happens next</div>
+          <div style="display: flex; flex-direction: column; gap: 14px; border-left: 1px solid #3A4542; padding-left: 16px; font-size: 14px; line-height: 1.5; color: #D9E1DE">
+            <span><strong style="color: #FFFFFF">Editorial check</strong><br>Scope and formatting</span>
+            <span><strong style="color: #FFFFFF">Peer review</strong><br>Independent reviewers assess the work</span>
+            <span><strong style="color: #FFFFFF">Decision</strong><br>Accept, revise or decline — you’re notified by email</span>
+            <span><strong style="color: #FFFFFF">Published</strong><br>DOI assigned, abstract goes public</span>
+          </div>
+        </div>
+        <div style="background: #CDEDE4; border-radius: 28px; padding: 22px; font-size: 14px; line-height: 1.55; color: #2A3B37">
+          <strong style="color: #141A19">Need help?</strong><br>Contact the editorial office at [editor@journal.org].
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { step: 3 }; }
+  renderVals() {
+    const step = this.state.step;
+    const defs = [
+      { title: 'Article details', sub: 'Title, abstract, keywords' },
+      { title: 'Authors', sub: 'Names, affiliations, ORCID' },
+      { title: 'Manuscript & media', sub: 'Text, images, graphs, video' },
+      { title: 'Review & submit', sub: 'Declarations' }
+    ];
+    return {
+      steps: defs.map((d, i) => {
+        const n = i + 1, done = n < step, cur = n === step;
+        return {
+          title: d.title, sub: d.sub,
+          mark: done ? '✓' : String(n),
+          current: cur ? 'step' : 'false',
+          bg: cur ? '#E9F5B8' : 'transparent',
+          dotBg: done ? '#2E9C88' : (cur ? '#141A19' : '#F3F5F2'),
+          dotFg: done || cur ? '#FFFFFF' : '#141A19',
+          go: () => this.setState({ step: n })
+        };
+      }),
+      is1: step === 1, is2: step === 2, is3: step === 3, is4: step === 4,
+      authors: [
+        { init: 'RI', name: 'Riya Iyer', aff: '[Institution]', role: 'Corresponding', bg: '#CDEDE4' },
+        { init: 'MO', name: 'Michael Okafor', aff: '[Institution]', role: 'Co-author', bg: '#E9F5B8' }
+      ],
+      nextLabel: step === 4 ? 'Submit for review' : 'Continue',
+      next: () => this.setState({ step: Math.min(4, step + 1) }),
+      back: () => this.setState({ step: Math.max(1, step - 1) })
+    };
+  }
+}
+</script>
+</body>
+</html>

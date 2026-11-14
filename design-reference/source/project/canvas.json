@@ -1,0 +1,337 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Admin.dc.html": {
+      "expand": "fill",
+      "h": 899,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "06 · Admin — editorial review",
+      "w": 1440,
+      "x": 6134,
+      "y": 2300
+    },
+    "Archive.dc.html": {
+      "expand": "fill",
+      "h": 2300,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "03 · Archive & search",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Article.dc.html": {
+      "expand": "fill",
+      "h": 2700,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "02 · Article (abstract public, full text gated)",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "B-Admin.dc.html": {
+      "expand": "fill",
+      "h": 1400,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B06 · Admin — editorial review",
+      "w": 1440,
+      "x": 7600,
+      "y": 0
+    },
+    "B-Archive.dc.html": {
+      "expand": "fill",
+      "h": 2200,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B03 · Archive & search",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "B-Article.dc.html": {
+      "expand": "fill",
+      "h": 2600,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B02 · Article",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "B-Landing.dc.html": {
+      "expand": "fill",
+      "h": 6200,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B01 · Landing",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "B-Login.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B05 · Sign in / Register pop-up",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "B-Submit.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "page": "optB",
+      "title": "B04 · Submit your article",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "C-Admin.dc.html": {
+      "expand": "fill",
+      "h": 1400,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C06 · Admin — editorial review",
+      "w": 1440,
+      "x": 7600,
+      "y": 0
+    },
+    "C-Archive.dc.html": {
+      "expand": "fill",
+      "h": 2200,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C03 · Archive & search",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "C-Article.dc.html": {
+      "expand": "fill",
+      "h": 2600,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C02 · Article",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "C-Landing.dc.html": {
+      "expand": "fill",
+      "h": 5200,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C01 · Landing",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "C-Login.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C05 · Sign in / Register pop-up",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "C-Submit.dc.html": {
+      "expand": "fill",
+      "h": 1700,
+      "is_interactive": true,
+      "page": "optC",
+      "title": "C04 · Submit your article",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "D-Admin.dc.html": {
+      "expand": "fill",
+      "h": 1400,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D06 · Admin — editorial review",
+      "w": 1440,
+      "x": 7600,
+      "y": 0
+    },
+    "D-Archive.dc.html": {
+      "expand": "fill",
+      "h": 2100,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D03 · Archive & search",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "D-Article.dc.html": {
+      "expand": "fill",
+      "h": 2500,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D02 · Article",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "D-Landing.dc.html": {
+      "expand": "fill",
+      "h": 4200,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D01 · Landing",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "D-Login.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D05 · Sign in / Register pop-up",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "D-Submit.dc.html": {
+      "expand": "fill",
+      "h": 1600,
+      "is_interactive": true,
+      "page": "optD",
+      "title": "D04 · Submit your article",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    },
+    "Login.dc.html": {
+      "expand": "fill",
+      "h": 1000,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "05 · Sign in / Register pop-up",
+      "w": 1440,
+      "x": 6080,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 4300,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "01 · Landing",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Submit.dc.html": {
+      "expand": "fill",
+      "h": 1900,
+      "is_interactive": true,
+      "page": "optA",
+      "title": "04 · Submit your article",
+      "w": 1440,
+      "x": 4560,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-21T06:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "rowTitle": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "optA",
+      "text": "Unisphere — research journal · core screens",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "rowTitleB": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "optB",
+      "text": "Unisphere — Option B · dark particle universe",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "rowTitleC": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "optC",
+      "text": "Unisphere — Option C · biomedical grey",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "rowTitleD": {
+      "kind": "title1",
+      "maxW": 8000,
+      "page": "optD",
+      "text": "Unisphere — Option D · twilight glass",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "B-Landing.dc.html",
+    "B-Article.dc.html",
+    "B-Archive.dc.html",
+    "B-Submit.dc.html",
+    "B-Login.dc.html",
+    "B-Admin.dc.html",
+    "C-Landing.dc.html",
+    "C-Article.dc.html",
+    "C-Archive.dc.html",
+    "C-Submit.dc.html",
+    "C-Login.dc.html",
+    "C-Admin.dc.html",
+    "D-Landing.dc.html",
+    "D-Article.dc.html",
+    "D-Archive.dc.html",
+    "D-Submit.dc.html",
+    "D-Login.dc.html",
+    "D-Admin.dc.html",
+    "Main.dc.html",
+    "Article.dc.html",
+    "Archive.dc.html",
+    "Submit.dc.html",
+    "Login.dc.html",
+    "Admin.dc.html"
+  ],
+  "pages": [
+    {
+      "id": "optA",
+      "name": "Option A — Light clinical"
+    },
+    {
+      "id": "optB",
+      "name": "Option B — Dark particles"
+    },
+    {
+      "id": "optC",
+      "name": "Option C — Biomedical grey"
+    },
+    {
+      "id": "optD",
+      "name": "Option D — Twilight glass"
+    }
+  ],
+  "title": "Research Journal — Screens"
+}
