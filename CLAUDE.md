@@ -16,7 +16,10 @@ npm run typecheck   # tsc --noEmit
 npm run lint        # eslint (next core-web-vitals + typescript)
 npm run check       # typecheck + lint
 npm run build
+node --env-file=.env.local scripts/e2e-auth.mjs   # live auth smoke test (app must be running; creates + deletes a test user)
+npm run db:test:local                             # migrations + RLS tests on a throwaway local Postgres (see supabase/tests/run-local.sh)
 ```
+In the Claude Code cloud sandbox, Node's fetch needs `NODE_USE_ENV_PROXY=1` (for `next start` and scripts) to reach Supabase.
 
 ## Conventions
 - Journal identity (name, ISSN, DOI prefix, licence…) only in `src/config/journal.ts`. Feature flags in `src/config/site.ts`.
@@ -26,6 +29,10 @@ npm run build
 - Supabase clients: `lib/supabase/client.ts` (browser), `lib/supabase/server.ts` (`createClient` = user session; `createAdminClient` = service role, server-only, bypasses RLS — use sparingly).
 - Authors never update/delete submitted or published content; changes go through `change_requests` and create new `article_versions`.
 - Crawler access to full text: verify via reverse DNS + forward-confirm (googlebot.com / google.com), never by user-agent alone.
+- Auth: server actions in `lib/auth/actions.ts` return `ActionState`; forms use `useFormAction` (keeps input on error). Guards: `requireUser(next)` / `requireRole(ROLE_GROUPS.x, next)` in every protected page — the proxy (`lib/supabase/proxy.ts`) is only a coarse signed-in gate. `getViewer()` = user + profile + roles, cached per request. Redirect targets go through `safeNext()`.
+- Roles: `reader` (trigger on sign-up), `author` (Phase 3 submission trigger calls `public.ensure_author_role`), `reviewer`/`editor`/`admin` granted by admins only (RLS). Never read roles from user metadata.
+- Review model: `public.current_review_model()`; double-blind is enforced in RLS/views — reviewers never see author identities, authors never see reviewer identities.
+- Migrations: `supabase/migrations/*.sql`, RLS enabled on every table, SECURITY DEFINER functions with `set search_path = ''`. Add behaviour tests to `supabase/tests/`. Regenerate types after schema changes (`types.gen.ts`).
 - Pop-ups: use `Modal` (native `<dialog>`), `ConfirmDialog`, `Popover`. Auth uses `useAuthModal()` / `<AuthTrigger>`.
 - `cn()` from `lib/cn.ts` for class joining. When a component's base classes set `display`, wrap it to hide/show responsively instead of passing `hidden` (class-order conflicts).
 - Accessibility: real buttons/links/labels, `aria-label` on icon-only controls (IconButton requires `label`), 44px touch targets, 4.5:1 contrast, works at 360px with no horizontal scroll.

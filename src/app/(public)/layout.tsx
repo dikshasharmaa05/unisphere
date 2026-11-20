@@ -1,8 +1,19 @@
 import { AuthModalProvider } from "@/components/auth/AuthModal";
 import { SiteFooter } from "@/components/layout/SiteFooter";
-import { SiteHeader } from "@/components/layout/SiteHeader";
+import { SiteHeader, type HeaderViewer } from "@/components/layout/SiteHeader";
+import { getViewer, hasAnyRole, ROLE_GROUPS } from "@/lib/auth/session";
 
-export default function PublicLayout({ children }: { children: React.ReactNode }) {
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
+  const viewer = await getViewer();
+  const header: HeaderViewer | null = viewer
+    ? {
+        name: viewer.profile?.full_name || viewer.user.email || "Account",
+        email: viewer.user.email ?? "",
+        canReview: hasAnyRole(viewer, ROLE_GROUPS.review),
+        canAdmin: hasAnyRole(viewer, ROLE_GROUPS.admin),
+      }
+    : null;
+
   return (
     <AuthModalProvider>
       <a
@@ -11,7 +22,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       >
         Skip to content
       </a>
-      <SiteHeader />
+      <SiteHeader viewer={header} />
       <main id="main">{children}</main>
       <SiteFooter />
     </AuthModalProvider>

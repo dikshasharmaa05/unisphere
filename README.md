@@ -14,4 +14,6 @@ npm run check                # typecheck + lint
 - Journal name / ISSN / DOI prefix: [`src/config/journal.ts`](./src/config/journal.ts)
 - Design references: [`design-reference/`](./design-reference)
 
-Status: **Phase 1 done**: scaffold, design system, landing page (static placeholder data), sign-in/register pop-up UI (not yet connected).
+- Auth / dashboard setup (Supabase, Google, first admin, Vercel env): [`docs/SETUP-AUTH.md`](./docs/SETUP-AUTH.md)
+
+Status: **Phase 2 done**: Supabase auth (email + verification, password reset, Google), profiles & roles with RLS, route protection, account page. Phase 1: scaffold, design system, landing page.
