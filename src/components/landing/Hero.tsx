@@ -4,6 +4,7 @@ import { featuredPaper, heroHotspots } from "@/lib/placeholder-data";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
+import { AnimatedGlobe } from "./AnimatedGlobe";
 import { Globe } from "./Globe";
 
 const rail: { href: string; label: string; icon: IconName; active?: boolean }[] = [
@@ -39,7 +40,7 @@ export function Hero() {
       </nav>
 
       <div className="flex flex-wrap items-center gap-6 xl:pl-[72px]">
-        <div className="relative z-[2] min-w-0 flex-[1_1_440px]">
+        <div className="hero-in relative z-[2] min-w-0 flex-[1_1_440px]">
           <p className="eyebrow flex items-center gap-2.5 text-muted">
             <span className="size-2 rounded-full bg-teal" aria-hidden="true" />
             Peer-reviewed · Multidisciplinary · Global
@@ -77,13 +78,23 @@ export function Hero() {
         </div>
 
         <div className="relative flex min-w-0 flex-[1_1_560px] justify-center">
-          <Globe className="block h-auto w-full max-w-[680px]" title="A globe made of research nodes, linked by arcs across continents" />
-          {heroHotspots.map((h) => (
+          <div
+            aria-hidden="true"
+            className="halo-breathe pointer-events-none absolute left-1/2 top-1/2 aspect-square w-full max-w-[800px] xl:w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ background: "radial-gradient(circle, rgba(228,246,241,0.95) 0%, rgba(211,240,232,0.55) 52%, rgba(244,245,243,0) 72%)" }}
+          />
+          <AnimatedGlobe
+            className="w-full max-w-[680px]"
+            label="A rotating globe of research nodes linked by arcs across continents. Drag to spin."
+            fallback={<Globe className="block h-auto w-full" />}
+          />
+          {heroHotspots.map((h, i) => (
             <Link
               key={h.slug}
               href={`/archive?discipline=${h.slug}`}
               className={cn(
-                "group absolute hidden items-center gap-2.5 rounded-full md:flex",
+                "group absolute z-[2] hidden items-center gap-2.5 rounded-full md:flex",
+                ["float-a", "float-b", "float-c", "float-d"][i % 4],
                 h.pos,
                 h.labelFirst && "flex-row-reverse",
               )}
@@ -106,7 +117,7 @@ export function Hero() {
       <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] gap-4 rounded-[32px] bg-white/60 p-3 backdrop-blur-[16px] sm:p-4 xl:ml-[72px]">
         <Link
           href={`/articles/${featuredPaper.slug}`}
-          className="group flex flex-col gap-3 rounded-3xl bg-surface p-[22px] transition-shadow hover:shadow-[0_8px_30px_rgb(20_26_25/0.06)]"
+          className="lift group flex flex-col gap-3 rounded-3xl bg-surface p-[22px]"
         >
           <span className="flex items-center justify-between">
             <span className="font-mono text-xs text-muted">Latest · Paper No. {featuredPaper.paperNo}</span>
@@ -117,14 +128,14 @@ export function Hero() {
           <span className="text-lg font-bold leading-[1.3] tracking-[-0.01em]">{featuredPaper.title}</span>
           <span className="text-[13px] text-muted">{featuredPaper.field} · Open abstract</span>
         </Link>
-        <Link href="/#guidelines" className="flex flex-col gap-3 rounded-3xl bg-seafoam p-[22px]">
+        <Link href="/#guidelines" className="lift flex flex-col gap-3 rounded-3xl bg-seafoam p-[22px]">
           <span className="font-mono text-xs text-on-seafoam">Journal guidelines</span>
           <span className="text-lg font-bold leading-[1.3]">
             Formatting, ethics and review — everything an author needs before submitting.
           </span>
           <span className="text-[13px] font-bold underline underline-offset-2">Read guidelines</span>
         </Link>
-        <Link href="/#indexing" className="flex flex-col gap-3 rounded-3xl bg-ink p-[22px] text-white">
+        <Link href="/#indexing" className="lift flex flex-col gap-3 rounded-3xl bg-ink p-[22px] text-white">
           <span className="font-mono text-xs text-on-ink-muted">Indexing &amp; identifiers</span>
           <span className="text-lg font-bold leading-[1.3]">ISSN {journal.issn} · DOI for every article</span>
           <span className="flex flex-wrap gap-2">

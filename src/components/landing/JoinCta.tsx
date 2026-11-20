@@ -1,9 +1,10 @@
 import { AuthTrigger } from "@/components/auth/AuthModal";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function JoinCta() {
   return (
     <section aria-labelledby="join-title" className="container-page pt-24 sm:pt-[120px]">
-      <div className="flex flex-wrap items-center gap-7 rounded-[40px] bg-surface p-[clamp(24px,4vw,56px)]">
+      <Reveal className="flex flex-wrap items-center gap-7 rounded-[40px] bg-surface p-[clamp(24px,4vw,56px)]">
         <div className="flex-[1_1_420px]">
           <h2 id="join-title" className="text-[clamp(30px,3.4vw,44px)] font-extrabold leading-[1.05] tracking-[-0.035em]">
             Read every paper in full.
@@ -20,7 +21,7 @@ export function JoinCta() {
             Sign in
           </AuthTrigger>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

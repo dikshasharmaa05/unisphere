@@ -5,6 +5,7 @@ import { toneClass } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/cn";
 import { Eyebrow, SectionTitle } from "./SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function ArchivePreview() {
   return (
@@ -25,12 +26,12 @@ export function ArchivePreview() {
           Browse the archive
         </ButtonLink>
       </div>
-      <ul className="flex flex-[2_1_560px] flex-col gap-2.5">
+      <Reveal as="ul" stagger className="flex flex-[2_1_560px] flex-col gap-2.5">
         {issues.map((i) => (
           <li key={i.short}>
             <Link
               href={i.href}
-              className="group flex items-center gap-4 rounded-[22px] bg-surface px-[22px] py-5 transition-shadow hover:shadow-[0_8px_30px_rgb(20_26_25/0.06)] sm:gap-5"
+              className="lift group flex items-center gap-4 rounded-[22px] bg-surface px-[22px] py-5 sm:gap-5"
             >
               <span
                 aria-hidden="true"
@@ -50,7 +51,7 @@ export function ArchivePreview() {
             </Link>
           </li>
         ))}
-      </ul>
+      </Reveal>
     </section>
   );
 }

@@ -99,3 +99,63 @@
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to { opacity: 1; transform: none; }
 }
+
+/* ── Motion ────────────────────────────────────────────────────────────────
+   Only when JS runs and the visitor hasn't asked for reduced motion; otherwise
+   everything is simply visible. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes halo-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal="self"]:not([data-revealed]),
+  [data-reveal="stagger"]:not([data-revealed]) > * {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  [data-reveal="self"][data-revealed],
+  [data-reveal="stagger"][data-revealed] > * {
+    animation: rise-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* Hero entrance (runs on load) */
+  .hero-in > * {
+    animation: rise-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-in > :nth-child(1) { animation-delay: 60ms; }
+  .hero-in > :nth-child(2) { animation-delay: 160ms; }
+  .hero-in > :nth-child(3) { animation-delay: 280ms; }
+  .hero-in > :nth-child(4) { animation-delay: 380ms; }
+  .hero-in > :nth-child(5) { animation-delay: 480ms; }
+
+  .float-a { animation: float-y 5.5s ease-in-out infinite; }
+  .float-b { animation: float-y 6.5s ease-in-out -2s infinite; }
+  .float-c { animation: float-y 6s ease-in-out -4s infinite; }
+  .float-d { animation: float-y 7s ease-in-out -1s infinite; }
+  .halo-breathe { animation: halo-breathe 8s ease-in-out infinite; }
+}
+
+/* Hover micro-interactions (always on; transitions are cut by reduced-motion above) */
+.lift {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgb(20 26 25 / 0.08);
+}
+.nudge-arrow svg {
+  transition: transform 0.25s ease;
+}
+.nudge-arrow:hover svg {
+  transform: translateX(3px);
+}

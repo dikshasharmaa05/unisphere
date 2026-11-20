@@ -1,6 +1,7 @@
 import { journal } from "@/config/journal";
 import { indexes } from "@/lib/placeholder-data";
 import { SectionTitle } from "./SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function Indexing() {
   const facts = [
@@ -10,7 +11,7 @@ export function Indexing() {
   ];
   return (
     <section id="indexing" aria-labelledby="index-title" className="container-page scroll-mt-6 pt-24 sm:pt-[120px]">
-      <div className="flex flex-wrap items-start gap-10 rounded-[40px] bg-seafoam p-[clamp(24px,4vw,56px)]">
+      <Reveal className="flex flex-wrap items-start gap-10 rounded-[40px] bg-seafoam p-[clamp(24px,4vw,56px)]">
         <div className="flex-[1_1_320px]">
           <p className="eyebrow text-on-seafoam">05 — Indexing</p>
           <SectionTitle>
@@ -25,9 +26,9 @@ export function Indexing() {
             ))}
           </dl>
         </div>
-        <ul className="grid flex-[2_1_520px] grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
+        <Reveal as="ul" stagger delay={150} className="grid flex-[2_1_520px] grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(180px,1fr))]">
           {indexes.map((name) => (
-            <li key={name} className="flex min-h-[130px] flex-col justify-between gap-2 rounded-[22px] bg-surface p-[22px]">
+            <li key={name} className="lift flex min-h-[130px] flex-col justify-between gap-2 rounded-[22px] bg-surface p-[22px]">
               <span
                 aria-hidden="true"
                 className="inline-flex size-11 items-center justify-center rounded-xl bg-bg font-mono text-[11px] text-muted"
@@ -38,8 +39,8 @@ export function Indexing() {
               <span className="w-max rounded-full bg-bg px-2.5 py-1 text-xs font-semibold text-ink-soft">[status]</span>
             </li>
           ))}
-        </ul>
-      </div>
+        </Reveal>
+      </Reveal>
     </section>
   );
 }

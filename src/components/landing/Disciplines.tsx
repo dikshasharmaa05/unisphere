@@ -4,11 +4,12 @@ import { toneClass } from "@/components/ui/Card";
 import { SearchField } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
 import { Eyebrow, SectionTitle } from "./SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function Disciplines() {
   return (
     <section aria-labelledby="disc-title" className="container-page pt-24 sm:pt-[120px]">
-      <div className="flex flex-wrap gap-10 rounded-[40px] bg-surface p-[clamp(24px,4vw,56px)]">
+      <Reveal className="flex flex-wrap gap-10 rounded-[40px] bg-surface p-[clamp(24px,4vw,56px)]">
         <div className="flex-[1_1_320px]">
           <Eyebrow>02 — Browse by discipline</Eyebrow>
           <SectionTitle>
@@ -27,13 +28,13 @@ export function Disciplines() {
             placeholder="Title, author, keyword or DOI"
           />
         </div>
-        <ul className="grid flex-[2_1_520px] grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]">
+        <Reveal as="ul" stagger delay={150} className="grid flex-[2_1_520px] grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]">
           {disciplines.map((d, i) => (
             <li key={d.slug}>
               <Link
                 href={`/archive?discipline=${d.slug}`}
                 className={cn(
-                  "flex h-full min-h-[120px] flex-col justify-between gap-2 rounded-[22px] p-5 transition-transform hover:-translate-y-0.5",
+                  "lift flex h-full min-h-[120px] flex-col justify-between gap-2 rounded-[22px] p-5",
                   toneClass[d.tone],
                 )}
               >
@@ -45,8 +46,8 @@ export function Disciplines() {
               </Link>
             </li>
           ))}
-        </ul>
-      </div>
+        </Reveal>
+      </Reveal>
     </section>
   );
 }

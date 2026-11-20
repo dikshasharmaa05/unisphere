@@ -6,6 +6,7 @@ import { Icon } from "@/components/ui/Icon";
 import { MonoLabel, Pill } from "@/components/ui/Pill";
 import { Eyebrow } from "./SectionHeading";
 import { PaperCardActions } from "./PaperCardActions";
+import { Reveal } from "@/components/ui/Reveal";
 
 export function LatestResearch() {
   return (
@@ -22,9 +23,9 @@ export function LatestResearch() {
         </ButtonLink>
       </div>
 
-      <div className="mt-10 grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-5">
+      <Reveal stagger className="mt-10 grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-5">
         {latestPapers.map((p) => (
-          <Card as="article" key={p.slug} className="flex min-h-[360px] flex-col gap-4 p-6 sm:p-[26px]">
+          <Card as="article" key={p.slug} className="lift flex min-h-[360px] flex-col gap-4 p-6 sm:p-[26px]">
             <div className="flex items-center justify-between gap-2.5">
               <Pill tone={p.tone}>{p.field}</Pill>
               <MonoLabel>{p.meta}</MonoLabel>
@@ -45,7 +46,7 @@ export function LatestResearch() {
             </div>
           </Card>
         ))}
-      </div>
+      </Reveal>
     </section>
   );
 }

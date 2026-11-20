@@ -2,8 +2,10 @@
 
 Project ref: `fgulzbqyiuolxfzdmdnm` · Supabase URL: `https://fgulzbqyiuolxfzdmdnm.supabase.co`
 
-Replace `YOUR-APP.vercel.app` with your production domain once Vercel gives you one (or your custom domain),
-and `YOUR-TEAM` with your Vercel team/account slug (preview URLs look like `unisphere-git-branch-YOUR-TEAM.vercel.app`).
+Production URL: **`https://unisphere-nine-rouge.vercel.app`** (swap in your custom domain later).
+`YOUR-TEAM` = your Vercel team/account slug (preview URLs look like `unisphere-git-branch-YOUR-TEAM.vercel.app`).
+Don't use a broad wildcard such as `https://unisphere-*.vercel.app/**`: anyone can deploy a project with that name
+and receive your users' sign-in links.
 
 ---
 
@@ -11,10 +13,10 @@ and `YOUR-TEAM` with your Vercel team/account slug (preview URLs look like `unis
 
 | Field | Value |
 |---|---|
-| **Site URL** | `http://localhost:3000` for now → change to `https://YOUR-APP.vercel.app` when you go live |
+| **Site URL** | `https://unisphere-nine-rouge.vercel.app` |
 | **Redirect URLs** (add each) | `http://localhost:3000/**` |
-| | `https://YOUR-APP.vercel.app/**` |
-| | `https://*-YOUR-TEAM.vercel.app/**` (Vercel preview deployments) |
+| | `https://unisphere-nine-rouge.vercel.app/**` |
+| | `https://*-YOUR-TEAM.vercel.app/**` (optional — Vercel preview deployments) |
 
 The app sends users back to `/auth/callback?next=…`; Supabase only allows destinations on this list
 (anything else silently falls back to the Site URL).
@@ -64,7 +66,7 @@ phase we switch auth emails to **Resend via custom SMTP** (Authentication → Em
    - Application type: **Web application** · Name: `Unisphere (Supabase)`
    - **Authorized JavaScript origins**:
      - `http://localhost:3000`
-     - `https://YOUR-APP.vercel.app`
+     - `https://unisphere-nine-rouge.vercel.app`
    - **Authorized redirect URIs** — exactly one, Supabase's callback (Google never redirects to the app directly):
      - `https://fgulzbqyiuolxfzdmdnm.supabase.co/auth/v1/callback`
 4. Copy the **Client ID** and **Client secret**.
@@ -93,7 +95,7 @@ Project → Settings → Environment Variables (Production + Preview):
 
 | Name | Value |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | `https://YOUR-APP.vercel.app` |
+| `NEXT_PUBLIC_SITE_URL` | `https://unisphere-nine-rouge.vercel.app` |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://fgulzbqyiuolxfzdmdnm.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | the `sb_publishable_…` key |
 | `SUPABASE_SERVICE_ROLE_KEY` | the `sb_secret_…` key — **mark Sensitive**, never prefix with `NEXT_PUBLIC_` |
