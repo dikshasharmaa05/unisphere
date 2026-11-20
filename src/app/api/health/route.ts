@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isSupabaseConfigured, supabaseEnv } from "@/lib/env";
+import { isSupabaseConfigured, supabaseEnv, supabaseEnvProblems } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -12,7 +12,18 @@ export const dynamic = "force-dynamic";
  */
 export async function GET() {
   if (!isSupabaseConfigured()) {
-    return NextResponse.json({ ok: false, supabase: "not_configured" }, { status: 503 });
+    const { missing, invalid } = supabaseEnvProblems();
+    return NextResponse.json(
+      {
+        ok: false,
+        supabase: "not_configured",
+        missing,
+        invalid,
+        hint: "Set these in Vercel → Settings → Environment Variables for Production, then redeploy (NEXT_PUBLIC_* values are fixed at build time).",
+        deployment: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? null,
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } },
+    );
   }
   const env = supabaseEnv()!;
   const result = { ok: false, auth: "down", db: "down", schema: "missing" };
