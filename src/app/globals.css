@@ -99,3 +99,56 @@
   from { opacity: 0; transform: translateY(8px) scale(0.98); }
   to { opacity: 1; transform: none; }
 }
+
+/* ── Motion ────────────────────────────────────────────────────────────────
+   Only when JS runs and the visitor hasn't asked for reduced motion; otherwise
+   everything is simply visible. */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+@keyframes halo-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.04); opacity: 1; }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* Text waiting to be split by SplitReveal / hero items waiting for the intro timeline.
+     Failsafe: reveal anyway after 2.5s if JS never runs the animation. */
+  [data-split]:not(.is-split),
+  [data-hero-item]:not(.is-ready) {
+    visibility: hidden;
+    animation: motion-failsafe 0s 2.5s forwards;
+  }
+  .float-a { animation: float-y 5.5s ease-in-out infinite; }
+  .float-b { animation: float-y 6.5s ease-in-out -2s infinite; }
+  .float-c { animation: float-y 6s ease-in-out -4s infinite; }
+  .float-d { animation: float-y 7s ease-in-out -1s infinite; }
+  .halo-breathe { animation: halo-breathe 8s ease-in-out infinite; }
+}
+@keyframes motion-failsafe {
+  to { visibility: visible; }
+}
+.split-line {
+  padding-bottom: 0.08em; /* keep descenders inside the mask */
+  margin-bottom: -0.08em;
+}
+
+/* Hover micro-interactions (always on; transitions are cut by reduced-motion above) */
+.lift {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgb(20 26 25 / 0.08);
+}
+.nudge-arrow svg {
+  transition: transform 0.25s ease;
+}
+.nudge-arrow:hover svg {
+  transform: translateX(3px);
+}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Icon } from "./Icon";
+import { motionState } from "@/lib/motion/gsap";
 
 /**
  * Accessible modal built on the native <dialog> element:
@@ -35,10 +36,12 @@ export function Modal({
     if (open && !el.open) {
       el.showModal();
       document.documentElement.style.overflow = "hidden";
+      motionState.lenis?.stop();
     }
     if (!open && el.open) el.close();
     return () => {
       document.documentElement.style.overflow = "";
+      motionState.lenis?.start();
     };
   }, [open]);
 

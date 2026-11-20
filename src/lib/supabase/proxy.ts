@@ -2,7 +2,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { supabaseEnv } from "@/lib/env";
 
-/** Refreshes the Supabase auth session cookie on each request (no-op until configured). */
+/** Paths that need a signed-in user. Finer role checks live in each page (requireRole). */
+export const PROTECTED_PREFIXES = ["/submit", "/dashboard", "/review", "/admin", "/account"] as const;
+
+const isProtected = (path: string) => PROTECTED_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
+
+/** Refreshes the Supabase auth session cookie and gates protected paths. */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
   const env = supabaseEnv();
@@ -21,6 +26,17 @@ export async function updateSession(request: NextRequest) {
   });
 
   // Do not run code between createServerClient and getClaims() — it keeps the session in sync.
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+  const signedIn = !!data?.claims?.sub;
+
+  const path = request.nextUrl.pathname;
+  if (!signedIn && isProtected(path)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/sign-in";
+    url.search = `?next=${encodeURIComponent(path + request.nextUrl.search)}`;
+    const redirect = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((c) => redirect.cookies.set(c));
+    return redirect;
+  }
   return response;
 }

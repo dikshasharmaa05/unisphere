@@ -40,7 +40,7 @@ const sizeClass: Record<ButtonSize, { plain: string; arrow: string; circle: stri
 
 function classes(variant: ButtonVariant, size: ButtonSize, className?: string) {
   const s = sizeClass[size];
-  return cn(base, variantClass[variant], hasArrow(variant) ? s.arrow : s.plain, className);
+  return cn(base, variantClass[variant], hasArrow(variant) ? cn(s.arrow, "nudge-arrow") : s.plain, className);
 }
 
 function Content({ variant, size, children }: { variant: ButtonVariant; size: ButtonSize; children: ReactNode }) {

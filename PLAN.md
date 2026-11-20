@@ -119,7 +119,7 @@ Admin (editor/admin): `/admin` → submissions, change-requests, comments, issue
 ## 5. Phased build order
 
 1. **Phase 1 — scaffold & landing** ✅ (this commit): Next.js + Tailwind tokens, fonts, base UI kit, Supabase client setup, full landing page with placeholder data, responsive nav, auth pop-up UI.
-2. **Auth + roles**: Supabase Auth (email/password, Google, ORCID via custom OIDC/OAuth), profiles trigger, `requireRole`, wire the pop-up, password reset.
+2. **Auth + roles** ✅: email/password with verification, password reset, Google OAuth; profiles + `reader` role via trigger; `getUser`/`getViewer`/`requireUser`/`requireRole`; proxy gate for /submit, /dashboard, /review, /admin, /account; account page; `review_model` setting; health check; live e2e test (`scripts/e2e-auth.mjs`). ORCID sign-in deferred — ORCID iD is a checksum-validated profile field; `lib/auth/providers.ts` is structured so an ORCID OAuth provider can be added.
 3. **Database + RLS**: migrations for all tables, enums, functions, policies, storage buckets & policies, seed; generated types; RLS tests.
 4. **Submission flow**: 4-step wizard (details → authors → manuscript & media → review & submit), drafts autosave, uploads to Storage, YouTube/Vimeo embeds, zod validation.
 5. **Editorial/admin panel**: submissions board + detail (assign reviewers, decision, note to author), reviewer workspace, issues/archive, users & roles, taxonomy, settings.
@@ -127,15 +127,28 @@ Admin (editor/admin): `/admin` → submissions, change-requests, comments, issue
 7. **Archive & search**: Postgres FTS, filters, Volume → Issue sidebar, list/grid, pagination, quick abstract preview pop-up.
 8. **Comments, likes, share + moderation queue.**
 9. **Change requests** (correction/withdrawal) + version history UI.
-10. **Emails** (Resend): submission received, status change, reviewer assigned, comment approved.
+10. **Emails** (Resend): submission received, status change, reviewer assigned, comment approved. **Also switch Supabase auth emails (verify, reset) from the built-in mailer to Resend custom SMTP** (Dashboard → Authentication → Emails → SMTP Settings) and restyle the templates.
 11. **SEO**: sitemap.xml, robots.txt, canonical URLs, Crossref deposit XML generator + admin export.
 12. **Testing & deployment**: Vitest (citations, crossref, crawler check), Playwright e2e for key flows, RLS tests, Vercel deploy.
 
-## 6. Open questions (blocking for later phases, not Phase 1)
+## 6. Decisions
 
-1. Supabase project URL + anon key + service-role key (for Phase 2/3).
-2. ORCID: do you have (or want us to register) an ORCID public API client? Supabase has no built-in ORCID provider, so it needs a custom OAuth flow.
-3. Resend: sending domain and from-address.
-4. Real journal identity values: ISSN, DOI prefix (Crossref membership), publisher name, licence, editorial email.
-5. Review model: single-blind or double-blind? (Changes what reviewers can see.)
-6. Max video upload size (we suggest ≤ 100 MB, with embeds preferred).
+- **Backend**: Supabase (decided). New key format (`sb_publishable_` / `sb_secret_`).
+- **ORCID**: no ORCID sign-in for now; optional, checksum-validated ORCID iD on the profile, shown on articles.
+- **Auth email**: Supabase built-in mailer in development → Resend custom SMTP in the email phase.
+- **Review model**: journal setting `site_settings.review_model` = `single_blind | double_blind`, default **double_blind**.
+  Read with `public.current_review_model()`. Enforcement rules for Phase 3 (RLS + server queries, never UI-only):
+  - Reviewers can never read `profiles` (already true: profiles are visible only to the owner, editors, admins).
+  - In double-blind mode, reviewers read manuscripts through a reviewer-safe view/RPC that omits `article_authors`
+    (names, affiliations, ORCID, emails) and any media flagged as containing identities; the base tables stay
+    unreadable to reviewers.
+  - Authors never see reviewer identities in either mode: authors read reviews only through a view without
+    `reviewer_id` / names (comments-to-author only); `reviews` base table is readable by the reviewer and editors only.
+  - In single-blind mode the reviewer view additionally exposes author names/affiliations/ORCID.
+- **Journal identity**: placeholders stay in `src/config/journal.ts` until real values exist.
+
+## 7. Open questions (later phases)
+
+1. Resend: sending domain and from-address (email phase).
+2. Real journal identity values: ISSN, DOI prefix (Crossref membership), publisher name, licence, editorial email.
+3. Max video upload size (we suggest ≤ 100 MB, with embeds preferred).

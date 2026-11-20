@@ -1,6 +1,10 @@
 /**
- * Database types. Placeholder until the schema lands (Phase 3).
- * Regenerate with: npx supabase gen types typescript --project-id <id> > src/lib/supabase/types.ts
+ * Database types, generated from the live schema into `types.gen.ts`.
+ * Regenerate after each migration:  npm run db:types
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Database = any;
+export type { Database, Json } from "./types.gen";
+import type { Database } from "./types.gen";
+
+export type AppRole = Database["public"]["Enums"]["app_role"];
+export type ReviewModel = Database["public"]["Enums"]["review_model"];
+export type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
