@@ -40,7 +40,7 @@ export function Guidelines() {
                 <span
                   data-hpin-num=""
                   aria-hidden="true"
-                  className="pointer-events-none absolute -right-4 -top-6 select-none font-extrabold leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1.5px_#CDEDE4] text-[150px] lg:text-[230px]"
+                  className="pointer-events-none absolute -right-4 -top-6 select-none font-extrabold leading-none tracking-[-0.06em] text-seafoam/60 text-[150px] lg:text-[230px]"
                 >
                   {String(s.n).padStart(2, "0")}
                 </span>

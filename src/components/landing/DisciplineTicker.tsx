@@ -15,14 +15,14 @@ export function DisciplineTicker() {
   return (
     <section aria-label="Disciplines we publish" className="relative mt-24 select-none py-4 sm:mt-28">
       <p className="sr-only">Disciplines: {names.join(", ")}.</p>
-      <VelocityMarquee speed={55}>
+      <VelocityMarquee speed={22}>
         {names.map((n, i) => (
           <span key={n} className="flex items-center">
             <span
               className={
                 i % 2
-                  ? "whitespace-nowrap text-[clamp(44px,8vw,120px)] font-extrabold leading-none tracking-[-0.045em] text-transparent [-webkit-text-stroke:1.5px_#141A19]"
-                  : "whitespace-nowrap text-[clamp(44px,8vw,120px)] font-extrabold leading-none tracking-[-0.045em] text-ink"
+                  ? "whitespace-nowrap bg-[linear-gradient(90deg,#2E9C88,#8FD3C3)] bg-clip-text pb-[0.12em] text-[clamp(44px,8vw,120px)] font-extrabold leading-[1.15] tracking-[-0.045em] text-transparent"
+                  : "whitespace-nowrap pb-[0.12em] text-[clamp(44px,8vw,120px)] font-extrabold leading-[1.15] tracking-[-0.045em] text-ink"
               }
             >
               {n}
@@ -31,7 +31,7 @@ export function DisciplineTicker() {
           </span>
         ))}
       </VelocityMarquee>
-      <VelocityMarquee speed={40} reverse className="mt-3">
+      <VelocityMarquee speed={16} reverse className="mt-3">
         {["Peer-reviewed", "Open abstracts", "DOI for every paper", "Figures, graphs & video", "Global authors", "Moderated discussion"].map((n) => (
           <span key={n} className="flex items-center">
             <span className="whitespace-nowrap rounded-full bg-seafoam px-6 py-3 font-mono text-sm uppercase tracking-[0.08em] text-ink sm:text-base">{n}</span>

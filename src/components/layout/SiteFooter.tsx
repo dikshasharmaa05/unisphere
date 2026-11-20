@@ -62,7 +62,7 @@ export function SiteFooter() {
           by="chars"
           stagger={0.045}
           duration={1.4}
-          className="select-none text-center text-[clamp(72px,19vw,300px)] font-extrabold leading-[0.8] tracking-[-0.06em] text-transparent [-webkit-text-stroke:2px_#B9C4C0]"
+          className="select-none whitespace-nowrap text-center text-[clamp(56px,15vw,240px)] font-extrabold leading-[0.85] tracking-[-0.055em] text-[#DCE3DF]"
         >
           {journal.name}
         </SplitReveal>

@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
  * it races, scroll up and it reverses. Static, wrapped row with reduced motion.
  * Decorative: content is aria-hidden; pass meaningful text elsewhere.
  */
-export function VelocityMarquee({ children, className, speed = 60, reverse = false }: { children: ReactNode; className?: string; speed?: number; reverse?: boolean }) {
+export function VelocityMarquee({ children, className, speed = 22, reverse = false }: { children: ReactNode; className?: string; speed?: number; reverse?: boolean }) {
   const track = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -23,12 +23,12 @@ export function VelocityMarquee({ children, className, speed = 60, reverse = fal
         const tick = (_time: number, deltaMs: number) => {
           const v = motionState.velocity;
           if (Math.abs(v) > 0.2) dir = (v > 0 ? -1 : 1) * (reverse ? -1 : 1);
-          boost += (Math.min(Math.abs(v) * 14, 900) - boost) * 0.08;
+          boost += (Math.min(Math.abs(v) * 5, 260) - boost) * 0.05;
           const half = t.scrollWidth / 2;
           x += dir * (speed + boost) * (deltaMs / 1000);
           if (x <= -half) x += half;
           if (x > 0) x -= half;
-          gsap.set(t, { x, skewX: Math.max(-8, Math.min(8, -dir * boost * 0.012)) });
+          gsap.set(t, { x, skewX: Math.max(-4, Math.min(4, -dir * boost * 0.012)) });
         };
         gsap.ticker.add(tick);
         return () => {
