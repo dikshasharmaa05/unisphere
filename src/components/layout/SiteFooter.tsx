@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { journal } from "@/config/journal";
 import { LogoMark } from "@/components/ui/Icon";
+import { SplitReveal } from "@/components/motion/SplitReveal";
 
 const columns = [
   {
@@ -54,6 +55,17 @@ export function SiteFooter() {
             </div>
           ))}
         </nav>
+      </div>
+      <div aria-hidden="true" className="mt-12 overflow-hidden">
+        <SplitReveal
+          as="p"
+          by="chars"
+          stagger={0.045}
+          duration={1.4}
+          className="select-none text-center text-[clamp(72px,19vw,300px)] font-extrabold leading-[0.8] tracking-[-0.06em] text-transparent [-webkit-text-stroke:2px_#B9C4C0]"
+        >
+          {journal.name}
+        </SplitReveal>
       </div>
       <p className="mt-9 font-mono text-xs text-muted">
         © {journal.copyrightYear} {journal.name} · Content licensed under {journal.licence}

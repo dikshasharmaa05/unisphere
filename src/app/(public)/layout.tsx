@@ -1,4 +1,5 @@
 import { AuthModalProvider } from "@/components/auth/AuthModal";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader, type HeaderViewer } from "@/components/layout/SiteHeader";
 import { getViewer, hasAnyRole, ROLE_GROUPS } from "@/lib/auth/session";
@@ -15,6 +16,7 @@ export default async function PublicLayout({ children }: { children: React.React
     : null;
 
   return (
+    <MotionProvider>
     <AuthModalProvider>
       <a
         href="#main"
@@ -26,5 +28,6 @@ export default async function PublicLayout({ children }: { children: React.React
       <main id="main">{children}</main>
       <SiteFooter />
     </AuthModalProvider>
+    </MotionProvider>
   );
 }

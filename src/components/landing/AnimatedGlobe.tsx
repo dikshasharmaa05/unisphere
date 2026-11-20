@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
+import { motionState } from "@/lib/motion/gsap";
 
 /**
  * Live particle globe on <canvas>: a dotted sphere that rotates in 3D, great-circle
@@ -243,6 +244,7 @@ export function AnimatedGlobe({
     }
 
     let raf = 0;
+    let introBoost = interactive ? 4.5 : 0;
     let last = performance.now();
     let visible = true;
     const loop = (now: number) => {
@@ -250,8 +252,13 @@ export function AnimatedGlobe({
       const dt = Math.max(0, Math.min(0.05, (now - last) / 1000));
       last = now;
       time += dt;
+      introBoost *= 1 - Math.min(1, dt * 1.1); // fast spin-in that settles
       if (!dragging) {
-        velocity += (AUTO_SPEED - velocity) * Math.min(1, dt * 1.6); // ease back to cruise
+        // Scrolling spins the globe along with the page (direction follows scroll).
+        const v = motionState.velocity;
+        const scrollSpin = Math.max(-3, Math.min(3, v * 0.05));
+        const target = AUTO_SPEED + introBoost + scrollSpin;
+        velocity += (target - velocity) * Math.min(1, dt * 2.2);
         tiltOffset *= 1 - Math.min(1, dt * 1.2);
       }
       angle += velocity * dt;
@@ -324,7 +331,7 @@ export function AnimatedGlobe({
   }, [tone, interactive]);
 
   return (
-    <div ref={wrap} className={cn("relative aspect-square", className)}>
+    <div ref={wrap} className={cn("relative aspect-square", className)} data-cursor={interactive ? "Drag" : undefined}>
       {fallback && (
         <div aria-hidden={painted || undefined} className={cn("absolute inset-0 transition-opacity duration-700", painted && "opacity-0")}>
           {fallback}
