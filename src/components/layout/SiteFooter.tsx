@@ -25,7 +25,8 @@ const columns = [
     links: [
       { href: "/about/editorial-board", label: "Editorial board" },
       { href: "/about/contact", label: "Contact" },
-      { href: "/about/privacy", label: "Privacy" },
+      { href: "/privacy", label: "Privacy" },
+      { href: "/terms", label: "Terms" },
     ],
   },
 ];
