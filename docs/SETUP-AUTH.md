@@ -30,6 +30,10 @@ The app sends users back to `/auth/callback?next=…`; Supabase only allows dest
 
 ## 3. Supabase → Authentication → Emails → Templates (recommended)
 
+> **Blocked on the free plan with the built-in mailer.** Ready-made branded templates are in
+> `supabase/templates/`; apply them after switching auth emails to Resend SMTP (email phase).
+
+
 The default templates work when the link is opened in the **same browser** that signed up. To make links work
 from any device (e.g. sign up on a laptop, click the email on a phone), change the link in two templates:
 
