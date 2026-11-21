@@ -58,7 +58,7 @@ phase we switch auth emails to **Resend via custom SMTP** (Authentication → Em
 2. **APIs & Services → OAuth consent screen** (called *Google Auth Platform → Branding* in the new UI):
    - User type: **External**
    - App name: `Unisphere` · User support email: yours · Developer contact: yours
-   - **Authorized domains**: `supabase.co` and, when you have it, `unisphere-nine-rouge.vercel.app` and `fgulzbqyiuolxfzdmdnm.supabase.co` (bare domains — no https://; `vercel.app` alone is rejected as a shared domain)
+   - **Authorized domains**: `unisphere-nine-rouge.vercel.app` and `fgulzbqyiuolxfzdmdnm.supabase.co` (bare domains — no https://; `vercel.app` alone is rejected as a shared domain)
    - Scopes: keep the defaults (`openid`, `email`, `profile`) — nothing sensitive
    - While in *Testing* status only listed test users can sign in; click **Publish app** when ready
      (no verification is needed for these basic scopes).
