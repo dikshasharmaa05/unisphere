@@ -42,7 +42,7 @@ export async function signInAction(_prev: ActionState, fd: FormData): Promise<Ac
 export async function signUpAction(_prev: ActionState, fd: FormData): Promise<ActionState> {
   const parsed = signUpSchema.safeParse(form(fd));
   if (!parsed.success) return { status: "error", fields: fieldErrors(parsed.error) };
-  const { email, password, fullName, affiliation, orcid } = parsed.data;
+  const { email, password, fullName, affiliation, affiliationRor, orcid } = parsed.data;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signUp({
@@ -51,7 +51,7 @@ export async function signUpAction(_prev: ActionState, fd: FormData): Promise<Ac
     options: {
       emailRedirectTo: callbackUrl(safeNext(fd.get("next"), "/account")),
       // Copied into public.profiles by the on_auth_user_created trigger (validated there too).
-      data: { full_name: fullName, affiliation, orcid },
+      data: { full_name: fullName, affiliation, affiliation_ror: affiliation ? affiliationRor : null, orcid },
     },
   });
   if (error) return { status: "error", message: authErrorMessage(error), code: error.code };
@@ -109,7 +109,12 @@ export async function updateProfileAction(_prev: ActionState, fd: FormData): Pro
   const supabase = await createClient();
   const { error } = await supabase
     .from("profiles")
-    .update({ full_name: parsed.data.fullName, affiliation: parsed.data.affiliation, orcid: parsed.data.orcid })
+    .update({
+      full_name: parsed.data.fullName,
+      affiliation: parsed.data.affiliation,
+      affiliation_ror: parsed.data.affiliation ? parsed.data.affiliationRor : null,
+      orcid: parsed.data.orcid,
+    })
     .eq("id", user.id);
   if (error) {
     if (error.code === "23514") return { status: "error", fields: { orcid: "That ORCID iD isn’t valid." } };

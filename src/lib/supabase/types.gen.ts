@@ -17,6 +17,7 @@ export type Database = {
       profiles: {
         Row: {
           affiliation: string | null
+          affiliation_ror: string | null
           created_at: string
           email: string | null
           full_name: string
@@ -26,6 +27,7 @@ export type Database = {
         }
         Insert: {
           affiliation?: string | null
+          affiliation_ror?: string | null
           created_at?: string
           email?: string | null
           full_name?: string
@@ -35,6 +37,7 @@ export type Database = {
         }
         Update: {
           affiliation?: string | null
+          affiliation_ror?: string | null
           created_at?: string
           email?: string | null
           full_name?: string

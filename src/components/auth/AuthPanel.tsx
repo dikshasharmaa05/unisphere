@@ -16,6 +16,7 @@ import {
 import { enabledProviders } from "@/lib/auth/providers";
 import { cn } from "@/lib/cn";
 import { useFormAction } from "./useFormAction";
+import { AffiliationField } from "./AffiliationField";
 
 export type AuthMode = "signin" | "register" | "forgot";
 
@@ -219,10 +220,8 @@ function RegisterForm({ next, onSent }: { next: string; onSent: (email: string) 
     <form className="mt-6 flex flex-col gap-3.5" onSubmit={onSubmit} noValidate>
       <input type="hidden" name="next" value={next} />
       <FormAlert state={state} />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(160px,100%),1fr))] gap-3">
-        <Input label="Full name" name="fullName" autoComplete="name" required error={fields?.fullName} />
-        <Input label="Affiliation" name="affiliation" autoComplete="organization" placeholder="University or institute" error={fields?.affiliation} />
-      </div>
+      <Input label="Full name" name="fullName" autoComplete="name" required error={fields?.fullName} />
+      <AffiliationField error={fields?.affiliation} />
       <Input
         label={
           <>
