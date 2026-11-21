@@ -164,7 +164,7 @@ try {
 
   // Google button while the provider is not yet enabled in Supabase → friendly error, no crash
   await page.goto(`${BASE}/sign-in`);
-  await page.getByRole("button", { name: "Google" }).click();
+  await page.getByRole("button", { name: "Continue with Google" }).click();
   await page.waitForURL(/accounts\.google\.com|\/sign-in\?error=|supabase\.co/, { timeout: 15000 }).catch(() => {});
   const gUrl = page.url();
   check("Google button: redirects to Google, or explains it isn't enabled", /accounts\.google\.com/.test(gUrl) || /error=/.test(gUrl) || /supabase\.co/.test(gUrl), gUrl.replace(/\?.*/, "?…"));

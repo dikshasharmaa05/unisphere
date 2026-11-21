@@ -13,7 +13,8 @@ import {
   signUpAction,
   type ActionState,
 } from "@/lib/auth/actions";
-import { enabledProviders } from "@/lib/auth/providers";
+import { enabledProviders, type OAuthProviderId } from "@/lib/auth/providers";
+import { ProviderIcon } from "./ProviderIcon";
 import { cn } from "@/lib/cn";
 import { useFormAction } from "./useFormAction";
 import { AffiliationField } from "./AffiliationField";
@@ -331,7 +332,7 @@ function OAuthButtons({ next }: { next: string }) {
     <div className="mt-3.5 flex flex-col gap-3.5">
       <div className="flex items-center gap-3 text-xs text-muted">
         <span className="h-px flex-1 bg-line" />
-        or continue with
+        or
         <span className="h-px flex-1 bg-line" />
       </div>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(150px,100%),1fr))] gap-2.5">
@@ -339,7 +340,7 @@ function OAuthButtons({ next }: { next: string }) {
           <form key={p.id} action={oauthAction}>
             <input type="hidden" name="provider" value={p.id} />
             <input type="hidden" name="next" value={next} />
-            <OAuthButton label={p.label} />
+            <OAuthButton id={p.id} label={p.label} />
           </form>
         ))}
       </div>
@@ -347,17 +348,17 @@ function OAuthButtons({ next }: { next: string }) {
   );
 }
 
-function OAuthButton({ label }: { label: string }) {
+function OAuthButton({ id, label }: { id: OAuthProviderId; label: string }) {
   const { pending } = useFormStatus();
   return (
     <button
       type="submit"
       disabled={pending}
       aria-busy={pending}
-      className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full border border-line-strong bg-surface text-sm font-bold hover:bg-bg disabled:opacity-70"
+      className="flex h-[52px] w-full items-center justify-center gap-3 rounded-full border border-line-strong bg-surface text-[15px] font-semibold text-ink transition-[background-color,box-shadow] hover:bg-bg hover:shadow-[0_2px_10px_rgb(20_26_25/0.06)] disabled:opacity-70"
     >
-      {pending ? <Spinner /> : null}
-      {pending ? `Opening ${label}…` : label}
+      {pending ? <Spinner /> : <ProviderIcon id={id} />}
+      <span>{pending ? `Opening ${label}…` : `Continue with ${label}`}</span>
     </button>
   );
 }
