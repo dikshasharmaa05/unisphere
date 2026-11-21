@@ -94,12 +94,32 @@ try {
   check("trigger created profile", prof?.full_name === "E2E Tester" && prof?.orcid === "0000-0002-1825-0097");
   check("trigger granted only 'reader' (metadata role ignored)", JSON.stringify(roles?.map((r) => r.role)) === '["reader"]', JSON.stringify(roles));
 
-  // profile edit
-  await page.getByLabel("Affiliation").fill("Edited Institute");
+  // profile edit with an institution suggestion (ROR), chosen by keyboard
+  const aff = page.getByRole("combobox", { name: "Affiliation" });
+  await aff.fill("");
+  await aff.pressSequentially("university of oxf", { delay: 40 });
+  const firstOption = page.getByRole("option").first();
+  await firstOption.waitFor({ timeout: 15000 });
+  check("affiliation suggestions appear while typing", (await firstOption.textContent())?.includes("University of Oxford") ?? false, (await firstOption.textContent()) ?? "");
+  await aff.press("ArrowDown");
+  await aff.press("Enter");
+  check("keyboard pick fills the field", (await aff.inputValue()) === "University of Oxford");
   await page.getByRole("button", { name: "Save profile" }).click();
   await page.getByText("Profile saved.").waitFor({ timeout: 10000 });
-  const { data: prof2 } = await admin.from("profiles").select("affiliation").eq("id", userId).single();
-  check("account page saves profile edits", prof2?.affiliation === "Edited Institute");
+  const { data: prof2 } = await admin.from("profiles").select("affiliation, affiliation_ror").eq("id", userId).single();
+  check("account page saves affiliation + ROR ID", prof2?.affiliation === "University of Oxford" && prof2?.affiliation_ror === "052gg0110", JSON.stringify(prof2));
+  // free text clears the ROR ID
+  await aff.fill("Edited Institute");
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Save profile" }).click();
+  // The previous "Profile saved." is still on screen — poll the database instead.
+  let prof3 = null;
+  for (let i = 0; i < 20; i++) {
+    ({ data: prof3 } = await admin.from("profiles").select("affiliation, affiliation_ror").eq("id", userId).single());
+    if (prof3?.affiliation === "Edited Institute") break;
+    await page.waitForTimeout(300);
+  }
+  check("free-text affiliation saves without ROR ID", prof3?.affiliation === "Edited Institute" && prof3?.affiliation_ror === null, JSON.stringify(prof3));
 
   // 6
   await page.getByRole("button", { name: "Sign out" }).click();

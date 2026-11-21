@@ -24,7 +24,8 @@ export default async function SignInPage({
   const next = safeNext(sp.next, "/account");
   if (await getUser()) redirect(next);
 
-  const area = Object.entries(areaLabels).find(([p]) => next === p || next.startsWith(`${p}/`))?.[1];
+  // Only explain "why" when we were actually sent here from a protected page.
+  const area = sp.next ? Object.entries(areaLabels).find(([p]) => next === p || next.startsWith(`${p}/`))?.[1] : undefined;
   const notice = sp.error
     ? authErrorMessage({ code: sp.error, message: "", status: 400 })
     : area

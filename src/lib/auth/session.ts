@@ -9,7 +9,7 @@ import { signInPath } from "./redirect";
 
 export type Viewer = {
   user: User;
-  profile: Pick<ProfileRow, "full_name" | "affiliation" | "orcid" | "email"> | null;
+  profile: Pick<ProfileRow, "full_name" | "affiliation" | "affiliation_ror" | "orcid" | "email"> | null;
   roles: AppRole[];
 };
 
@@ -31,7 +31,7 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
   if (!user) return null;
   const supabase = await createClient();
   const [{ data: profile }, { data: roleRows }] = await Promise.all([
-    supabase.from("profiles").select("full_name, affiliation, orcid, email").eq("id", user.id).maybeSingle(),
+    supabase.from("profiles").select("full_name, affiliation, affiliation_ror, orcid, email").eq("id", user.id).maybeSingle(),
     supabase.from("user_roles").select("role").eq("user_id", user.id),
   ]);
   const roles = (roleRows ?? []).map((r) => r.role);

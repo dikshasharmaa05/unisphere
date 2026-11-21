@@ -3,22 +3,16 @@
 import { Input } from "@/components/ui/Input";
 import { useFormAction } from "@/components/auth/useFormAction";
 import { updateProfileAction } from "@/lib/auth/actions";
+import { AffiliationField } from "@/components/auth/AffiliationField";
 
-export function ProfileForm({ defaults }: { defaults: { fullName: string; affiliation: string; orcid: string } }) {
+export function ProfileForm({ defaults }: { defaults: { fullName: string; affiliation: string; affiliationRor: string; orcid: string } }) {
   const { state, pending, onSubmit } = useFormAction(updateProfileAction);
   const fields = state.status === "error" ? state.fields : undefined;
 
   return (
     <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-4" noValidate>
       <Input label="Full name" name="fullName" defaultValue={defaults.fullName} autoComplete="name" required error={fields?.fullName} />
-      <Input
-        label="Affiliation"
-        name="affiliation"
-        defaultValue={defaults.affiliation}
-        autoComplete="organization"
-        placeholder="University, institute or company"
-        error={fields?.affiliation}
-      />
+      <AffiliationField defaultValue={defaults.affiliation} defaultRor={defaults.affiliationRor} error={fields?.affiliation} />
       <Input
         label={
           <>

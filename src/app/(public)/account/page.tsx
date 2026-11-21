@@ -23,7 +23,12 @@ export default async function AccountPage() {
         <div className="min-w-0 flex-[999_1_560px] rounded-[32px] bg-surface p-[clamp(24px,3.4vw,44px)]">
           <h2 className="text-2xl font-extrabold tracking-[-0.025em]">Profile details</h2>
           <ProfileForm
-            defaults={{ fullName: p?.full_name ?? "", affiliation: p?.affiliation ?? "", orcid: p?.orcid ?? "" }}
+            defaults={{
+              fullName: p?.full_name ?? "",
+              affiliation: p?.affiliation ?? "",
+              affiliationRor: p?.affiliation_ror ?? "",
+              orcid: p?.orcid ?? "",
+            }}
           />
         </div>
 
