@@ -150,6 +150,7 @@ try {
   await admin.from("user_roles").insert({ user_id: userId, role: "editor" });
   await page.goto(`${BASE}/admin`);
   check("editor can open /admin", page.url().endsWith("/admin") && (await page.getByRole("heading", { name: "Submissions" }).isVisible()), page.url());
+  await page.goto(`${BASE}/`);
   await page.getByRole("button", { name: /Account menu/ }).click();
   check("editor sees 'Editorial desk' in account menu", await page.getByRole("link", { name: "Editorial desk" }).isVisible());
   await page.keyboard.press("Escape");
