@@ -82,7 +82,8 @@ export type SubmissionDetail = {
   files: { id: string; kind: MediaKind; file_name: string | null; embed_url: string | null; bytes: number | null; contains_identity: boolean; url: string | null }[];
   reviews: ReviewRow[];
   decisions: { decision: "accept" | "revise" | "decline"; note_to_author: string | null; created_at: string; version: number | null }[];
-  article: { id: string; slug: string; paper_no: number; featured: boolean } | null;
+  article: { id: string; slug: string; paper_no: number; featured: boolean; final_pdf_path: string | null } | null;
+  body: { html: string; references: string | null } | null;
 };
 
 export async function getSubmissionDetail(id: string): Promise<SubmissionDetail | null> {
@@ -94,7 +95,7 @@ export async function getSubmissionDetail(id: string): Promise<SubmissionDetail 
     .maybeSingle();
   if (!s) return null;
   const vid = s.current_version_id;
-  const [version, kw, authors, files, reviews, decisions, article, versions] = await Promise.all([
+  const [version, kw, authors, files, reviews, decisions, article, versions, body] = await Promise.all([
     vid ? supabase.from("submission_versions").select("id, version, title, abstract").eq("id", vid).maybeSingle() : Promise.resolve({ data: null }),
     vid ? supabase.from("version_keywords").select("position, keywords(label)").eq("version_id", vid).order("position") : Promise.resolve({ data: [] }),
     vid
@@ -109,8 +110,9 @@ export async function getSubmissionDetail(id: string): Promise<SubmissionDetail 
       .eq("submission_id", id)
       .order("assigned_at"),
     supabase.from("editorial_decisions").select("decision, note_to_author, created_at, version_id").eq("submission_id", id).order("created_at", { ascending: false }),
-    supabase.from("articles").select("id, slug, paper_no, featured").eq("submission_id", id).maybeSingle(),
+    supabase.from("articles").select("id, slug, paper_no, featured, final_pdf_path").eq("submission_id", id).maybeSingle(),
     supabase.from("submission_versions").select("id, version").eq("submission_id", id),
+    vid ? supabase.from("version_bodies").select("body_html, references_text").eq("version_id", vid).maybeSingle() : Promise.resolve({ data: null }),
   ]);
   const vnum = new Map((versions.data ?? []).map((v) => [v.id, v.version]));
 
@@ -144,6 +146,7 @@ export async function getSubmissionDetail(id: string): Promise<SubmissionDetail 
     })) as ReviewRow[],
     decisions: (decisions.data ?? []).map((d) => ({ ...d, version: d.version_id ? (vnum.get(d.version_id) ?? null) : null })),
     article: article.data ?? null,
+    body: body.data ? { html: body.data.body_html, references: body.data.references_text } : null,
   };
 }
 
