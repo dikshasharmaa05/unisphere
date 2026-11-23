@@ -34,7 +34,7 @@ published versions stay readable as history.
 | `submission_files` | manuscript, images, figures, datasets, video, supplementary | author & editors; signed-in users once published | author: own open version (limits enforced) |
 | `reviews` | assignments, recommendation, comments | the reviewer, editors — **never the author** | reviewer: own draft review; assignment via functions |
 | `editorial_decisions` | accept / revise / decline + note | editors, submitting author | via `record_decision()` |
-| `articles` | published record: slug, paper no., DOI, issue, pages, licence, PDF, counters, search | everyone | editors (DOI, issue, pages, licence, PDF, featured); creation via `publish_submission()` |
+| `articles` | published record: slug, paper no., received/accepted dates, DOI, issue, pages, licence, PDF, counters, search | everyone | editors (DOI, issue, pages, licence, PDF, featured); creation via `publish_submission()` |
 | `comments` | moderated discussion | approved: everyone; own pending: author; all: editors | signed-in users post as *pending*; moderation via `moderate_comment()` |
 | `likes` | one per user per article | own only (totals in `articles.like_count`) | own |
 | `change_requests` | correction / withdrawal requests | requester, editors | article authors request; editors decide via functions |
@@ -59,7 +59,8 @@ published versions stay readable as history.
 | `submit_review(review_id)` | reviewer | requires recommendation + comments to author |
 | `record_decision(submission_id, decision, note?)` | editor | accept / revise / decline; closes open reviews |
 | `author_reviews(submission_id)` | submitting author | "Reviewer 1/2…" + comments to author, only after a decision |
-| `publish_submission(submission_id, issue_id?, doi?)` | editor | creates the article (paper no., slug), makes the version public, indexes search |
+| `set_version_body(version_id, body_html, references?)` | editor | typeset full text of an **accepted, unpublished** version (published → use a correction) |
+| `publish_submission(submission_id, issue_id?, doi?)` | editor | creates the article (paper no., slug, received/accepted dates), makes the version public, indexes search |
 | `moderate_comment(comment_id, approve, note?)` | editor | approve / reject |
 | `get_article_comments(article_id)` | anyone | approved comments (+ caller's own pending) with display names |
 | `decide_change_request(request_id, approve, note?)` | editor | withdrawal approved → article withdrawn |

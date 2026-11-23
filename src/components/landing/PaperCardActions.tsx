@@ -19,16 +19,29 @@ export function PaperCardActions({ slug, title }: { slug: string; title: string 
   );
 }
 
-export function SharePopover({ href, title }: { href: string; title: string }) {
+export function SharePopover({ href, title, wide = false }: { href: string; title: string; wide?: boolean }) {
   const [copied, setCopied] = useState(false);
   const absolute = () => (typeof window === "undefined" ? href : new URL(href, window.location.origin).toString());
 
   return (
     <Popover
       triggerLabel={`Share “${title}”`}
-      triggerClassName="inline-flex size-11 items-center justify-center rounded-full bg-bg text-ink transition-colors hover:bg-line aria-expanded:bg-line"
-      trigger={<Icon name="share" />}
-      side="top"
+      triggerClassName={
+        wide
+          ? "flex min-h-12 w-full items-center gap-2.5 rounded-full bg-bg px-4 text-sm font-bold text-ink transition-colors hover:bg-line aria-expanded:bg-line"
+          : "inline-flex size-11 items-center justify-center rounded-full bg-bg text-ink transition-colors hover:bg-line aria-expanded:bg-line"
+      }
+      trigger={
+        wide ? (
+          <>
+            <Icon name="share" size={16} />
+            <span aria-hidden="true">Share</span>
+          </>
+        ) : (
+          <Icon name="share" />
+        )
+      }
+      side={wide ? "bottom" : "top"}
     >
       {(close) => (
         <div className="flex flex-col gap-1">

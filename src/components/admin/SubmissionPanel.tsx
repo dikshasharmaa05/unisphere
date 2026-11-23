@@ -17,6 +17,7 @@ import {
 import type { Person, SubmissionDetail } from "@/lib/editorial/queries";
 import { articleTypeLabel, formatBytes, STATUS } from "@/lib/submissions/labels";
 import { Feedback } from "./Feedback";
+import { FinalPdfPanel, FullTextPanel } from "./PublishingTools";
 import { useAction } from "./useAction";
 
 type IssueOption = { id: number; number: number; label: string | null; published_at: string | null; volume: number | null };
@@ -197,6 +198,8 @@ export function SubmissionPanel({ detail: d, pool, issues }: { detail: Submissio
 
       {d.status === "revision_requested" && <p className="rounded-[18px] bg-pink p-4 text-sm">Waiting for the author’s revision.</p>}
 
+      {d.status === "accepted" && d.version && <FullTextPanel key={d.version.id} submissionId={d.id} versionId={d.version.id} initial={d.body} />}
+
       {d.status === "accepted" && <PublishPanel submissionId={d.id} issues={issues} />}
 
       {d.article && (
@@ -207,6 +210,8 @@ export function SubmissionPanel({ detail: d, pool, issues }: { detail: Submissio
           </Link>
         </p>
       )}
+
+      {d.article && <FinalPdfPanel articleId={d.article.id} slug={d.article.slug} current={d.article.final_pdf_path} />}
 
       {d.decisions.length > 0 && (
         <details className="text-sm">

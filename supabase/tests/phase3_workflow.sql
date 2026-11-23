@@ -213,3 +213,29 @@ select case when count(*) >= 10 then 'PASS audit trail recorded (' || count(*) |
 :as_reader
 select case when count(*) = 0 then 'PASS readers cannot see the audit log' else 'FAIL' end from public.audit_log;
 reset role;
+
+\echo '── 13. Phase 6: typesetting & public dates'
+:as_admin
+-- new manuscript through to accepted
+:as_alice
+select public.create_submission_draft(1::smallint) as s2 \gset
+select id as s2v from public.submission_versions where submission_id = :'s2' \gset
+update public.submission_versions set title = 'Typesetting test article', abstract = 'An abstract long enough to pass the submission checks for this second manuscript.' where id = :'s2v';
+insert into public.submission_files (submission_id, version_id, kind, storage_path, file_name, mime_type, bytes)
+values (:'s2', :'s2v', 'manuscript', :'s2' || '/' || :'s2v' || '/m.pdf', 'm.pdf', 'application/pdf', 100);
+select public.submit_submission(:'s2');
+\echo 'expect error: author cannot typeset'
+select public.set_version_body(:'s2v', '<p>x</p>');
+:as_editor
+\echo 'expect error: not accepted yet'
+select public.set_version_body(:'s2v', '<p>x</p>');
+select public.record_decision(:'s2', 'accept', null);
+select public.set_version_body(:'s2v', '<h2>Introduction</h2><p>Typeset text.</p>', 'Ref 1.');
+select case when body_html like '%Typeset text%' then 'PASS editor typesets accepted version' else 'FAIL' end from public.version_bodies where version_id = :'s2v';
+select public.publish_submission(:'s2') as art2 \gset
+select case when received_at is not null and accepted_at is not null then 'PASS article carries received/accepted dates' else 'FAIL dates' end from public.articles where id = :'art2';
+\echo 'expect error: published version needs a correction'
+select public.set_version_body(:'s2v', '<p>changed</p>');
+:as_anon
+select case when count(*) = 1 then 'PASS dates readable publicly' else 'FAIL' end from public.articles where id = :'art2' and received_at is not null;
+reset role;

@@ -5,6 +5,8 @@ import { z } from "zod";
 import { getViewer, hasAnyRole, ROLE_GROUPS } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import type { AppRole } from "@/lib/supabase/types";
+import { sanitizeArticleHtml } from "@/lib/content/sanitize";
+import { docxToArticleHtml } from "@/lib/content/docx";
 
 export type Result = { ok: true; message?: string } | { ok: false; error: string };
 
@@ -305,4 +307,61 @@ export async function saveDefaultLicenceAction(licence: string): Promise<Result>
   if (error) return { ok: false, error: msg(error) };
   refresh();
   return { ok: true, message: "Default licence saved." };
+}
+
+// ── Full text & final PDF ───────────────────────────────────────────────────
+
+const DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+/** Converts the current version's DOCX manuscript to HTML for the editor to review (not saved). */
+export async function importManuscriptAction(submissionId: string): Promise<{ ok: true; html: string; warnings: string[] } | { ok: false; error: string }> {
+  await requireEditor();
+  const supabase = await createClient();
+  const { data: s } = await supabase.from("submissions").select("current_version_id").eq("id", uuid.parse(submissionId)).single();
+  if (!s?.current_version_id) return { ok: false, error: "No submitted version." };
+  const { data: f } = await supabase
+    .from("submission_files")
+    .select("storage_path, mime_type")
+    .eq("version_id", s.current_version_id)
+    .eq("kind", "manuscript")
+    .maybeSingle();
+  if (!f?.storage_path) return { ok: false, error: "No manuscript file found." };
+  if (f.mime_type !== DOCX) return { ok: false, error: "Automatic import works for DOCX manuscripts. For PDFs, paste the text instead." };
+  const { data: blob, error } = await supabase.storage.from("submissions").download(f.storage_path);
+  if (error || !blob) return { ok: false, error: "Couldn’t open the manuscript." };
+  try {
+    const { html, warnings } = await docxToArticleHtml(Buffer.from(await blob.arrayBuffer()));
+    if (!html.trim()) return { ok: false, error: "The manuscript appears to be empty." };
+    return { ok: true, html, warnings };
+  } catch {
+    return { ok: false, error: "That DOCX file couldn’t be read." };
+  }
+}
+
+const bodySchema = z.object({ versionId: uuid, html: z.string().max(2_000_000), references: z.string().max(200_000).optional() });
+
+export async function saveFullTextAction(input: unknown): Promise<Result> {
+  await requireEditor();
+  const p = bodySchema.safeParse(input);
+  if (!p.success) return { ok: false, error: "The text is too long." };
+  const { html } = sanitizeArticleHtml(p.data.html);
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_version_body", { p_version: p.data.versionId, p_body_html: html, p_references: p.data.references ?? undefined });
+  if (error) return { ok: false, error: msg(error) };
+  refresh();
+  return { ok: true, message: "Full text saved." };
+}
+
+export async function setFinalPdfAction(articleId: string, path: string | null): Promise<Result> {
+  await requireEditor();
+  const id = uuid.parse(articleId);
+  if (path !== null && !new RegExp(`^${id}/[a-z0-9._-]+\\.pdf$`, "i").test(path)) return { ok: false, error: "Invalid file location." };
+  const supabase = await createClient();
+  const { data: old } = await supabase.from("articles").select("final_pdf_path, slug").eq("id", id).single();
+  const { error } = await supabase.from("articles").update({ final_pdf_path: path }).eq("id", id);
+  if (error) return { ok: false, error: msg(error) };
+  if (old?.final_pdf_path && old.final_pdf_path !== path) await supabase.storage.from("final-pdfs").remove([old.final_pdf_path]);
+  refresh();
+  if (old?.slug) revalidatePath(`/articles/${old.slug}`);
+  return { ok: true, message: path ? "Final PDF attached." : "Final PDF removed — readers get the generated PDF." };
 }

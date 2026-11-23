@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       articles: {
         Row: {
+          accepted_at: string | null
           article_type: Database["public"]["Enums"]["article_type"]
           comment_count: number
           discipline_id: number | null
@@ -34,6 +35,7 @@ export type Database = {
           like_count: number
           paper_no: number
           published_at: string
+          received_at: string | null
           search: unknown
           slug: string
           submission_id: string
@@ -43,6 +45,7 @@ export type Database = {
           withdrawn_at: string | null
         }
         Insert: {
+          accepted_at?: string | null
           article_type: Database["public"]["Enums"]["article_type"]
           comment_count?: number
           discipline_id?: number | null
@@ -61,6 +64,7 @@ export type Database = {
           like_count?: number
           paper_no: number
           published_at?: string
+          received_at?: string | null
           search?: unknown
           slug: string
           submission_id: string
@@ -70,6 +74,7 @@ export type Database = {
           withdrawn_at?: string | null
         }
         Update: {
+          accepted_at?: string | null
           article_type?: Database["public"]["Enums"]["article_type"]
           comment_count?: number
           discipline_id?: number | null
@@ -88,6 +93,7 @@ export type Database = {
           like_count?: number
           paper_no?: number
           published_at?: string
+          received_at?: string | null
           search?: unknown
           slug?: string
           submission_id?: string
@@ -1149,6 +1155,10 @@ export type Database = {
           volume: number
           withdrawn: boolean
         }[]
+      }
+      set_version_body: {
+        Args: { p_body_html: string; p_references?: string; p_version: string }
+        Returns: undefined
       }
       set_version_keywords: {
         Args: { p_labels: string[]; p_version: string }

@@ -16,9 +16,11 @@ npm run typecheck   # tsc --noEmit
 npm run lint        # eslint (next core-web-vitals + typescript)
 npm run check       # typecheck + lint
 npm run build
+npm test            # vitest unit tests (src/**/*.test.ts)
 node --env-file=.env.local scripts/e2e-auth.mjs        # live auth smoke test (app must be running; creates + deletes a test user)
 node --env-file=.env.local scripts/e2e-submission.mjs  # live submission-flow test (uploads, submit, revise, delete; cleans up)
 node --env-file=.env.local scripts/e2e-editorial.mjs   # live editorial desk + reviewer test (assign, review, decide, publish, roles, settings)
+node --env-file=.env.local scripts/e2e-article.mjs     # live article page test (gating, Scholar meta, cite, like, PDFs, DOCX import)
 npm run db:test:local                             # migrations + RLS tests on a throwaway local Postgres (see supabase/tests/run-local.sh)
 ```
 In the Claude Code cloud sandbox, Node's fetch needs `NODE_USE_ENV_PROXY=1` (for `next start` and scripts) to reach Supabase.
@@ -39,6 +41,7 @@ In the Claude Code cloud sandbox, Node's fetch needs `NODE_USE_ENV_PROXY=1` (for
 - Data model & API: `docs/DATABASE.md`. Change submission/article state only via the RPCs (`submit_submission`, `record_decision`, `publish_submission`, …) — never direct status updates. Select explicit columns (some columns are privilege-restricted). Public author lists: `published_authors(version_id)` (no emails). Storage paths: `submissions/{submission_id}/{version_id}/{file}`.
 - Migrations: `supabase/migrations/*.sql`, RLS enabled on every table, SECURITY DEFINER functions with `set search_path = ''`. Add behaviour tests to `supabase/tests/`. Regenerate types after schema changes (`types.gen.ts`).
 - Motion: GSAP (+ScrollTrigger, SplitText, ScrambleText) and Lenis smooth scroll, all in `src/components/motion/` with plugin setup in `lib/motion/gsap.ts`. Use the primitives (`SplitReveal`, `Scramble`, `ScrubWords`, `Reveal variant=…`, `TiltCard`, `Magnetic`, `VelocityMarquee`, `HorizontalPin`) rather than ad-hoc animation. Always wrap effects in `gsap.matchMedia()` with `MQ.motion` / `MQ.fine` / `MQ.desktopMotion` so reduced-motion users and touch devices get static content. Never hide content with CSS unless a failsafe reveals it (see `[data-split]` in globals.css). Don't combine CSS animations and GSAP on the same element (CSS animations override inline transforms). Scrollable overlays need `data-lenis-prevent` or live in a `dialog`.
+- Article page: reads `lib/articles/queries.ts` (`getArticle`, `getFullText(versionId, "member"|"crawler")`). Visitors never receive full-text HTML — only members or `isVerifiedCrawler()` (`lib/crawler/verify.ts`). Article HTML always passes `sanitizeArticleHtml()` (`lib/content/sanitize.ts`) on save and render. Citations: `lib/citations`. PDF: `/articles/[slug]/pdf` (final PDF via signed URL, else `lib/pdf/article-pdf.ts` with bundled DejaVu fonts). Full text is set by editors via `set_version_body` (accepted, unpublished versions only).
 - Pop-ups: use `Modal` (native `<dialog>`), `ConfirmDialog`, `Popover`. Auth uses `useAuthModal()` / `<AuthTrigger>`.
 - `cn()` from `lib/cn.ts` for class joining. When a component's base classes set `display`, wrap it to hide/show responsively instead of passing `hidden` (class-order conflicts).
 - Accessibility: real buttons/links/labels, `aria-label` on icon-only controls (IconButton requires `label`), 44px touch targets, 4.5:1 contrast, works at 360px with no horizontal scroll.
