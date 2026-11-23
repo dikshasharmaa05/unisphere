@@ -18,6 +18,7 @@ const secret = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const admin = createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } });
 
 const stamp = Date.now();
+const startedAt = new Date().toISOString();
 const author = { email: `e2e.author.${stamp}@unisphere-e2e.invalid`, password: `Au-${stamp}-pw`, name: "Ada Author" };
 const editor = { email: `e2e.editor.${stamp}@unisphere-e2e.invalid`, password: `Ed-${stamp}-pw`, name: "Eli Editor" };
 const results = [];
@@ -217,6 +218,12 @@ try {
     await admin.from("submissions").delete().eq("id", id);
   }
   for (const id of userIds) await admin.auth.admin.deleteUser(id);
+  // Keywords created during this run that are no longer used by any version.
+  const { data: kws } = await admin.from("keywords").select("id").gte("created_at", startedAt);
+  for (const k of kws ?? []) {
+    const { count: used } = await admin.from("version_keywords").select("*", { count: "exact", head: true }).eq("keyword_id", k.id);
+    if (!used) await admin.from("keywords").delete().eq("id", k.id);
+  }
   const { count } = await admin.from("submissions").select("id", { count: "exact", head: true }).in("id", [...submissionIds]);
   check("cleanup removed test data", (count ?? 0) === 0);
   await browser.close();
