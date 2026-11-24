@@ -66,7 +66,8 @@ published versions stay readable as history.
 | `decide_change_request(request_id, approve, note?)` | editor | withdrawal approved → article withdrawn |
 | `start_correction(request_id)` / `publish_correction(request_id)` | editor | open copy of the public version → edit → publish as new public version |
 | `published_authors(version_id)` | anyone | public author list (no emails) |
-| `search_articles(q?, discipline?, issue?, type?, includes[]?, sort?, limit?, offset?)` | anyone | full-text search (title, DOI, keywords, authors, abstract) + filters, with total count |
+| `search_articles(q?, discipline?, issue?, types[]?, includes[]?, sort?, limit?, offset?)` | anyone | full-text search (title, DOI, keywords, authors, abstract) with prefix matching; filters; sort `relevance`/`newest`/`oldest`/`liked`/`discussed`; returns keywords, counters and total count. Issue details only for published issues |
+| `archive_issues()` | anyone | published volumes/issues with article counts (archive sidebar) |
 
 ## Review model
 

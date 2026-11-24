@@ -40,3 +40,13 @@ export function createAdminClient() {
   if (!env || !key) throw new Error("Supabase admin client is not configured — set SUPABASE_SERVICE_ROLE_KEY.");
   return createPlainClient<Database>(env.url, key, { auth: { persistSession: false, autoRefreshToken: false } });
 }
+
+/**
+ * Anonymous client with no cookies — for public data on cacheable pages (e.g. the
+ * homepage). Same access as a signed-out visitor; RLS applies.
+ */
+export function createPublicClient() {
+  const env = supabaseEnv();
+  if (!env) throw new Error("Supabase is not configured — set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.");
+  return createPlainClient<Database>(env.url, env.anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+}

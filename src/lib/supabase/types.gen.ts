@@ -1002,6 +1002,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      archive_issues: {
+        Args: never
+        Returns: {
+          article_count: number
+          is_current: boolean
+          issue: number
+          issue_id: number
+          label: string
+          published_at: string
+          volume: number
+          year: number
+        }[]
+      }
       assign_reviewer: {
         Args: { p_due_at?: string; p_reviewer: string; p_submission: string }
         Returns: string
@@ -1131,13 +1144,14 @@ export type Database = {
           p_offset?: number
           p_q?: string
           p_sort?: string
-          p_type?: Database["public"]["Enums"]["article_type"]
+          p_types?: Database["public"]["Enums"]["article_type"][]
         }
         Returns: {
           abstract: string
           article_id: string
           article_type: Database["public"]["Enums"]["article_type"]
           authors: string
+          comment_count: number
           discipline_name: string
           discipline_slug: string
           doi: string
@@ -1146,6 +1160,9 @@ export type Database = {
           has_images: boolean
           has_video: boolean
           issue: number
+          issue_id: number
+          keywords: string[]
+          like_count: number
           paper_no: number
           published_at: string
           rank: number
@@ -1385,4 +1402,3 @@ export const Constants = {
     },
   },
 } as const
-

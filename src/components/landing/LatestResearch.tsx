@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { latestPapers } from "@/lib/placeholder-data";
+import { latestPapers, type PaperPreview } from "@/lib/placeholder-data";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
@@ -10,7 +10,7 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { Eyebrow, SectionTitle } from "./SectionHeading";
 import { PaperCardActions } from "./PaperCardActions";
 
-export function LatestResearch() {
+export function LatestResearch({ papers = latestPapers }: { papers?: PaperPreview[] }) {
   return (
     <section aria-labelledby="latest-title" className="container-page pt-20 sm:pt-[100px]">
       <div className="flex flex-wrap items-end justify-between gap-5">
@@ -28,15 +28,15 @@ export function LatestResearch() {
       </div>
 
       <Reveal stagger variant="zoom" className="mt-10 grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] gap-5">
-        {latestPapers.map((p) => (
-          <TiltCard key={p.slug} cursor="Read" className="rounded-[28px]">
+        {papers.map((p) => (
+          <TiltCard key={p.href + p.title} cursor="Read" className="rounded-[28px]">
             <Card as="article" className="flex h-full min-h-[360px] flex-col gap-4 p-6 sm:p-[26px]">
               <div className="flex items-center justify-between gap-2.5">
                 <Pill tone={p.tone}>{p.field}</Pill>
                 <MonoLabel>{p.meta}</MonoLabel>
               </div>
               <h3 className="text-[22px] font-bold leading-[1.25] tracking-[-0.02em]">
-                <Link href={`/articles/${p.slug}`} className="bg-[linear-gradient(#E9F5B8,#E9F5B8)] bg-[length:0%_40%] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_40%]">
+                <Link href={p.href} className="bg-[linear-gradient(#E9F5B8,#E9F5B8)] bg-[length:0%_40%] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 hover:bg-[length:100%_40%]">
                   {p.title}
                 </Link>
               </h3>
@@ -47,7 +47,7 @@ export function LatestResearch() {
                   <Icon name="lock" size={14} />
                   Full text for members
                 </span>
-                <PaperCardActions slug={p.slug} title={p.title} />
+                <PaperCardActions href={p.href} title={p.title} />
               </div>
             </Card>
           </TiltCard>

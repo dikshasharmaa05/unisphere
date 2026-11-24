@@ -19,7 +19,8 @@ export const disciplines: Discipline[] = [
 ];
 
 export type PaperPreview = {
-  slug: string;
+  /** Where the card links. Sample cards (shown until papers are published) link to the archive. */
+  href: string;
   field: string;
   tone: Tone;
   meta: string;
@@ -30,7 +31,7 @@ export type PaperPreview = {
 
 export const latestPapers: PaperPreview[] = [
   {
-    slug: "sleep-dependent-memory-consolidation",
+    href: "/archive",
     field: "Neuroscience",
     tone: "seafoam",
     meta: "Vol. 1 · No. 3",
@@ -40,7 +41,7 @@ export const latestPapers: PaperPreview[] = [
       "A longitudinal study of secondary-school students linking sleep architecture to retention across a full academic term.",
   },
   {
-    slug: "low-resource-language-models-agriculture",
+    href: "/archive",
     field: "AI & Computing",
     tone: "lime",
     meta: "Vol. 1 · No. 2",
@@ -49,7 +50,7 @@ export const latestPapers: PaperPreview[] = [
     abstract: "We fine-tune compact models on regional farming dialogues and evaluate advice quality against agronomists.",
   },
   {
-    slug: "community-screening-rural-clinics",
+    href: "/archive",
     field: "Public Health",
     tone: "pink",
     meta: "Vol. 1 · No. 1",
@@ -59,14 +60,16 @@ export const latestPapers: PaperPreview[] = [
   },
 ];
 
-export const featuredPaper = {
-  slug: "microplastic-transport-monsoon-rivers",
+export type FeaturedPreview = { href: string; paperNo: string; title: string; field: string };
+
+export const featuredPaper: FeaturedPreview = {
+  href: "/archive",
   paperNo: "[000]",
   title: "Microplastic transport in monsoon-fed river systems",
   field: "Environmental Science",
 };
 
-export type IssuePreview = { href: string; short: string; label: string; sub: string; cover: Tone };
+export type IssuePreview = { href: string; short: string; label: string; sub: string; cover: Tone; count?: string };
 
 export const issues: IssuePreview[] = [
   { href: "/archive?volume=1&issue=3", short: "V1·I3", label: "Volume 1 · Issue 3", sub: "[Month Year] · Current issue", cover: "seafoam" },

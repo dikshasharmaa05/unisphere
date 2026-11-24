@@ -7,16 +7,18 @@ import { Hero } from "@/components/landing/Hero";
 import { Indexing } from "@/components/landing/Indexing";
 import { JoinCta } from "@/components/landing/JoinCta";
 import { LatestResearch } from "@/components/landing/LatestResearch";
+import { getHomeData } from "@/lib/home/queries";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const home = await getHomeData();
   return (
     <>
-      <Hero />
+      <Hero featured={home.featured ?? undefined} />
       <DisciplineTicker />
-      <LatestResearch />
+      <LatestResearch papers={home.latest ?? undefined} />
       <Disciplines />
       <AdSlot placement="landing-mid" className="container-page pt-16" />
-      <ArchivePreview />
+      <ArchivePreview issues={home.issues ?? undefined} />
       <Guidelines />
       <Indexing />
       <JoinCta />
