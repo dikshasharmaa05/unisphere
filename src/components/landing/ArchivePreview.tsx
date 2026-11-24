@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { issues } from "@/lib/placeholder-data";
+import { issues as sampleIssues, type IssuePreview } from "@/lib/placeholder-data";
 import { ButtonLink } from "@/components/ui/Button";
 import { toneClass } from "@/components/ui/Card";
 import { Icon } from "@/components/ui/Icon";
@@ -8,7 +8,7 @@ import { Magnetic } from "@/components/motion/Magnetic";
 import { cn } from "@/lib/cn";
 import { Eyebrow, SectionTitle } from "./SectionHeading";
 
-export function ArchivePreview() {
+export function ArchivePreview({ issues = sampleIssues }: { issues?: IssuePreview[] }) {
   return (
     <section aria-labelledby="archive-title" className="container-page flex flex-wrap gap-10 pt-24 sm:pt-[120px]">
       <div className="flex-[1_1_340px]">
@@ -47,9 +47,9 @@ export function ArchivePreview() {
               <span className="relative min-w-0 flex-1">
                 <span className="block text-lg font-bold">{i.label}</span>
                 <span className="mt-1 block text-[13px] text-muted">{i.sub}</span>
-                <span className="mt-1 block font-mono text-xs text-muted sm:hidden">[n] articles</span>
+                <span className="mt-1 block font-mono text-xs text-muted sm:hidden">{i.count ?? "[n] articles"}</span>
               </span>
-              <span className="relative hidden font-mono text-xs text-muted sm:inline">[n] articles</span>
+              <span className="relative hidden font-mono text-xs text-muted sm:inline">{i.count ?? "[n] articles"}</span>
               <span className="relative inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-bg transition-all duration-500 group-hover:-rotate-45 group-hover:bg-ink group-hover:text-white">
                 <Icon name="arrowRight" strokeWidth={2.2} />
               </span>

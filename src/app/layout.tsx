@@ -22,7 +22,7 @@ export const viewport: Viewport = { themeColor: "#F3F5F2", width: "device-width"
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${manrope.variable} ${jetbrains.variable} ${sourceSerif.variable}`}>
-      <body className="min-h-dvh overflow-x-hidden">{children}</body>
+      <body className="min-h-dvh overflow-x-clip">{children}</body>
     </html>
   );
 }

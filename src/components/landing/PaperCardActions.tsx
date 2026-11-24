@@ -7,12 +7,11 @@ import { Popover } from "@/components/ui/Popover";
 import { useAuthModal } from "@/components/auth/AuthModal";
 
 /** Like (requires login → opens auth pop-up), Share (popover), Open. */
-export function PaperCardActions({ slug, title }: { slug: string; title: string }) {
+export function PaperCardActions({ href, title }: { href: string; title: string }) {
   const { openAuth } = useAuthModal();
-  const href = `/articles/${slug}`;
   return (
     <div className="flex gap-1.5">
-      <IconButton icon="heart" label={`Like “${title}”`} tone="soft" onClick={() => openAuth("signin")} />
+      <IconButton icon="heart" label={`Like “${title}”`} tone="soft" onClick={() => openAuth("signin", href.startsWith("/articles/") ? href : undefined)} />
       <SharePopover href={href} title={title} />
       <IconLink href={href} icon="arrowUpRight" label={`Open “${title}”`} tone="ink" />
     </div>

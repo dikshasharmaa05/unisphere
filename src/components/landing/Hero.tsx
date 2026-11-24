@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { journal } from "@/config/journal";
-import { featuredPaper, heroHotspots } from "@/lib/placeholder-data";
+import { featuredPaper as sampleFeatured, heroHotspots, type FeaturedPreview } from "@/lib/placeholder-data";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { HeroMotion } from "@/components/motion/HeroMotion";
@@ -18,7 +18,7 @@ const rail: { href: string; label: string; icon: IconName; active?: boolean }[] 
   { href: "/submit", label: "Submit", icon: "upload" },
 ];
 
-export function Hero() {
+export function Hero({ featured: featuredPaper = sampleFeatured }: { featured?: FeaturedPreview }) {
   return (
     <section aria-labelledby="hero-title" className="container-page relative pt-6">
       <HeroMotion>
@@ -141,7 +141,7 @@ export function Hero() {
         <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(260px,100%),1fr))] gap-4 rounded-[32px] bg-white/60 p-3 backdrop-blur-[16px] sm:p-4 xl:ml-[72px]">
           <div data-hero-card="">
             <TiltCard cursor="Read" className="rounded-3xl">
-              <Link href={`/articles/${featuredPaper.slug}`} className="group flex h-full flex-col gap-3 rounded-3xl bg-surface p-[22px]">
+              <Link href={featuredPaper.href} className="group flex h-full flex-col gap-3 rounded-3xl bg-surface p-[22px]">
                 <span className="flex items-center justify-between">
                   <span className="font-mono text-xs text-muted">Latest · Paper No. {featuredPaper.paperNo}</span>
                   <span className="inline-flex size-[34px] items-center justify-center rounded-full bg-lime transition-transform duration-500 group-hover:rotate-45">

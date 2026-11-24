@@ -239,3 +239,26 @@ select public.set_version_body(:'s2v', '<p>changed</p>');
 :as_anon
 select case when count(*) = 1 then 'PASS dates readable publicly' else 'FAIL' end from public.articles where id = :'art2' and received_at is not null;
 reset role;
+
+\echo '── 14. Phase 7: archive search'
+:as_anon
+select case when count(*) = 1 then 'PASS prefix search ("memo" finds memory)' else 'FAIL prefix ' || count(*) end from public.search_articles('memo');
+select case when count(*) = 1 then 'PASS prefix search on two words' else 'FAIL' end from public.search_articles('sleep consol');
+select case when count(*) = 0 then 'PASS exclusion query not widened by prefix' else 'FAIL' end from public.search_articles('memory -sleep');
+select case when count(*) = 2 then 'PASS several article types' else 'FAIL types ' || count(*) end from public.search_articles(null, null, null, array['original_research', 'review_article']::public.article_type[]);
+select case when count(*) = 0 then 'PASS type filter excludes' else 'FAIL' end from public.search_articles(null, null, null, array['case_study']::public.article_type[]);
+select case when min(paper_no) is not null and (array_agg(slug order by ordinality))[1] = (select slug from public.articles where id = :'art') then 'PASS sort by most liked' else 'FAIL liked' end
+  from public.search_articles(null, null, null, null, null, 'liked') with ordinality;
+select case when count(*) = 1 and min(volume) = 1 and min(issue) = 1 then 'PASS issue filter + issue details' else 'FAIL issue' end from public.search_articles(null, null, 1);
+select case when 'Memory consolidation' = any(keywords) then 'PASS keywords returned' else 'FAIL kw' end from public.search_articles('memory');
+select case when count(*) = 1 and min(article_count) = 1 then 'PASS archive_issues lists published issue with count' else 'FAIL archive_issues' end from public.archive_issues();
+reset role;
+:as_editor
+insert into public.issues (volume_id, number, label) values (1, 2, '[Month Year]');
+select id as hidden_issue from public.issues where number = 2 \gset
+update public.articles set issue_id = :hidden_issue where id = :'art2';
+:as_anon
+select case when count(*) = 1 and min(issue) is null then 'PASS unpublished issue stays hidden in search' else 'FAIL hidden issue' end from public.search_articles('typesetting');
+select case when count(*) = 0 then 'PASS cannot filter by unpublished issue' else 'FAIL' end from public.search_articles(null, null, :hidden_issue);
+select case when count(*) = 1 then 'PASS archive_issues skips unpublished issues' else 'FAIL' end from public.archive_issues();
+reset role;

@@ -37,6 +37,9 @@
 
 @layer base {
   html {
+    /* clip (not hidden): stops off-screen animation start positions from causing sideways
+       scroll on phones without turning html/body into scroll containers (keeps sticky working). */
+    overflow-x: clip;
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
   }
